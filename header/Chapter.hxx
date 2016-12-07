@@ -3,6 +3,7 @@
 
 #include "Page.hxx"
 
+#include <memory>
 #include <vector>
 #include <iostream>
 
@@ -13,11 +14,11 @@ namespace tbrg3
 	private:
 		std::string name;
 		std::vector<Page> pages;
-		Chapter *next;
+		std::shared_ptr<Chapter> next;
 	public:
 		Chapter(std::string name, std::vector<Page> pages);
 		~Chapter();
-		void and_then(Chapter *next);
+		void and_then(std::shared_ptr<Chapter> next);
 		void operator()();
 	};
 };

@@ -10,7 +10,7 @@ tbrg3::Chapter::~Chapter()
 }
 
 void
-tbrg3::Chapter::and_then(Chapter *next)
+tbrg3::Chapter::and_then(std::shared_ptr<Chapter> next)
 {
 	this->next = next;
 }
