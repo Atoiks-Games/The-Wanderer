@@ -19,6 +19,7 @@ namespace tbrg3
 		Player();
 		virtual ~Player();
 		virtual void gen_stats() = 0;
+		virtual std::string default_greeter() = 0;
 
 		friend void base_stats(Player &p);
 	};
@@ -31,6 +32,7 @@ namespace tbrg3
 			Dwarf();
 			~Dwarf();
 			void gen_stats();
+			std::string default_greeter();
 		};
 
 		class Human : public Player
@@ -39,6 +41,7 @@ namespace tbrg3
 			Human();
 			~Human();
 			void gen_stats();
+			std::string default_greeter();
 		};
 
 		class Elf : public Player
@@ -47,6 +50,7 @@ namespace tbrg3
 			Elf();
 			~Elf();
 			void gen_stats();
+			std::string default_greeter();
 		};
 
 		class Gnome : public Player
@@ -55,6 +59,7 @@ namespace tbrg3
 			Gnome();
 			~Gnome();
 			void gen_stats();
+			std::string default_greeter();
 		};
 
 		class Infernal : public Player
@@ -63,6 +68,7 @@ namespace tbrg3
 			Infernal();
 			~Infernal();
 			void gen_stats();
+			std::string default_greeter();
 		};
 
 		class Lizardfolk : public Player
@@ -71,6 +77,7 @@ namespace tbrg3
 			Lizardfolk();
 			~Lizardfolk();
 			void gen_stats();
+			std::string default_greeter();
 		};
 	};
 };

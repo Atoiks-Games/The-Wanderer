@@ -17,3 +17,9 @@ tbrg3::players::Infernal::gen_stats()
 	intelligence += 1;
 	charisma -= 1;
 }
+
+std::string
+tbrg3::players::Infernal::default_greeter()
+{
+	return "Is it me or is it getting hot in here?";
+}

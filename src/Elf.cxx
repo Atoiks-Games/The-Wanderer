@@ -17,3 +17,9 @@ tbrg3::players::Elf::gen_stats()
 	dexterity += 1;
 	constitution -= 1;
 }
+
+std::string
+tbrg3::players::Elf::default_greeter()
+{
+	return "You are now an elf! A very popular choice...";
+}

@@ -18,3 +18,9 @@ tbrg3::players::Dwarf::gen_stats()
 	strength += 1;
 	dexterity -= 1;
 }
+
+std::string
+tbrg3::players::Dwarf::default_greeter()
+{
+	return "You are now a dwarf! Diggy Diggy Hole!";
+}

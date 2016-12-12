@@ -17,3 +17,9 @@ tbrg3::players::Gnome::gen_stats()
 	charisma += 1;
 	strength -= 1;
 }
+
+std::string
+tbrg3::players::Gnome::default_greeter()
+{
+	return "You are now a gnome! How cute!";
+}

@@ -17,3 +17,9 @@ tbrg3::players::Lizardfolk::gen_stats()
 	constitution += 1;
 	charisma -= 1;
 }
+
+std::string
+tbrg3::players::Lizardfolk::default_greeter()
+{
+	return "Hisssssssss";
+}
