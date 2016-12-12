@@ -23,6 +23,7 @@
 
 #include "Page.hxx"
 
+#include <string>
 #include <memory>
 #include <vector>
 #include <iostream>
