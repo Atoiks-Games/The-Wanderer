@@ -1,11 +1,11 @@
-langauge: cpp
+language: cpp
 compiler:
-	- clang
-	- gcc
+    - clang
+    - gcc
 script:
-	- mkdir build
-	- cd build
-	- cmake .. && make
+    - mkdir build
+    - cd build
+    - cmake .. && make
 os:
-	- linux
-	- osx
+    - linux
+    - osx
