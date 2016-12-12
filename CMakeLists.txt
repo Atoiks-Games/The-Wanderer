@@ -8,7 +8,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 	set(CMAKE_CXX_FLAGS, "-std=c++11 -Wall -O2")
     set(CMAKE_EXE_LINKER_FLAGS "-Os")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS "/std:c++11 /O2 /Wall")
+    set(CMAKE_CXX_FLAGS "/std:c++11 /O2 /Wall /EHsc")
     set(CMAKE_EXE_LINKER_FLAGS "/Os /Ox")
 endif()
 
