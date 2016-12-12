@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(THE_WANDERER)
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -O3")
-set(CMAKE_EXE_LINKER_FLAGS "-Os -s -fdata-sections -ffunction-sections -Wl,--gc-sections,--strip-all")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -O3")
+    set(CMAKE_EXE_LINKER_FLAGS "-Os -s -fdata-sections -ffunction-sections -Wl,--gc-sections,--strip-all")
+elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+	set(CMAKE_CXX_FLAGS, "-std=c++11 -Wall -O2")
+    set(CMAKE_EXE_LINKER_FLAGS "-Os")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "/std:c++11 /O2 /Wall")
+    set(CMAKE_EXE_LINKER_FLAGS "/Os /Ox")
+endif()
 
 include_directories(${THE_WANDERER_SOURCE_DIR}/header)
 add_subdirectory(src/utils)
