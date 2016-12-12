@@ -1,128 +1,141 @@
 #include "Page.hxx"
 #include "Player.hxx"
 #include "Chapter.hxx"
+#include "Utils.hxx"
 
 #include <map>
-#include <cctype>
-#include <locale>
 #include <memory>
 #include <iostream>
 #include <algorithm>
 #include <functional>
 
-using namespace std;
 using namespace tbrg3;
+using namespace utils;
 
-// trim from start
-static inline
-string &
-ltrim(string &s) {
-    s.erase(s.begin(), find_if(s.begin(), s.end(),
-            not1(ptr_fun<int, int>(isspace))));
-    return s;
-}
-
-// trim from end
-static inline
-string &
-rtrim(string &s) {
-    s.erase(find_if(s.rbegin(), s.rend(),
-            not1(ptr_fun<int, int>(isspace))).base(), s.end());
-    return s;
-}
-
-// trim from both ends
-static inline
-string &
-trim(string &s) {
-    return ltrim(rtrim(s));
-}
-
-static inline
-string
-read_non_empty_line(string prompt = ">> ") {
-  string str;
-  while (true) {
-    cout << prompt;
-    getline(cin, str);
-    trim(str);
-    if (!str.empty()) return str;
-  }
+std::unique_ptr<Player>
+read_player_race()
+{
+	std::cout << "Pick a race between Dwarf, Human, Elf, Gnome, Infernal and Lizardfolk"
+			<< std::endl;
+	do
+	{
+		const std::string str = io::read_non_empty_line();
+		if (str::iequals("d", str) || str::iequals("dwarf", str))
+		{
+			return std::unique_ptr<Player>(new players::Dwarf());
+		}
+		if (str::iequals("h", str) || str::iequals("human", str))
+		{
+			return std::unique_ptr<Player>(new players::Human());
+		}
+		if (str::iequals("e", str) || str::iequals("elf", str))
+		{
+			return std::unique_ptr<Player>(new players::Elf());
+		}
+		if (str::iequals("g", str) || str::iequals("gnome", str))
+		{
+			return std::unique_ptr<Player>(new players::Gnome());
+		}
+		if (str::iequals("i", str) || str::iequals("infernal", str))
+		{
+			return std::unique_ptr<Player>(new players::Infernal());
+		}
+		if (str::iequals("l", str) || str::iequals("lizardfolk", str))
+		{
+			return std::unique_ptr<Player>(new players::Lizardfolk());
+		}
+		std::cout << "No race was associated with " << str << std::endl;
+	}
+	while (true);
 }
 
 // Consider making this into a separate class for more functionality
-map<string, Player> party;
+std::map<std::string, std::unique_ptr<Player>> party;
 
 int
 main (int argc, char **argv)
 {
 	Chapter prologue("\n\n\t_PROLOGUE_\n\n", {
 		Page([]{
-			cout << "Give me your name" << endl;
-			string name = read_non_empty_line();
-			party[name] = Player();
-			cout << "Alright " << name << "! Give me three other names for your fellow party members" << endl;
-			for (int i = 0; i < 3; ++i) {
-				while (true) {
-          name = read_non_empty_line(to_string(i + 1) + ">> ");
-					if (party.find(name) != party.end()) {
-						cout << "There is already a party member with the name " << name
-							<< "." << endl << "Try again" << endl;
-					} else break;
+			std::cout << "Give me your name" << std::endl;
+			std::string name = io::read_non_empty_line();
+			party[name] = std::move(read_player_race());
+			std::cout << "Alright " << name
+					<< "! Give me three other names for your fellow"
+					<< " party members" << std::endl;
+			for (int i = 0; i < 3; ++i)
+			{
+				do
+				{
+					name = io::read_non_empty_line(std::to_string(i + 1) + ">> ");
+					if (party.find(name) != party.end())
+					{
+						std::cout << "There is already a party member with"
+								<< "the name " << name << "." << std::endl
+								<< "Try again" << std::endl;
+					}
+					else break;
 				}
-				party[name] = Player();
+				while (true);
+				party[name] = std::move(read_player_race());
 			}
 		})
 	});
 
-  prologue.and_then(std::shared_ptr<Chapter>(
-    new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
-      Page([]{
-        cout << "Your party wakes up in their rooms of the inn. It's morning."
-            << " They can hear the birds chirping and the nearby river flowing."
-            << " They get out of bed and look around the tiny room they slept in."
-            << endl
-            << "As they begin to get dressed they remeber that their adventuring"
-            << " contractor said he would be sending them a new task today."
-            << " It would be in a parcel at the end of the long and twisted road"
-            << " to the dropzone."
-            << endl;
-        while (true) {
-          cout << endl << "What should your party do?" << endl << endl
-              << "-i Inspect Their Rooms" << endl
-              << "-m Meet up in The Tavern Below Their Rooms" << endl;
-          string choice = read_non_empty_line();
-          if (choice == "m" || choice == "M") {
-            break;
-          }
-          if (choice == "i" || choice == "I") {
-            cout << "Their rooms are small and dusty. Each character's"
-                << " adventuring pack lays on the small bed. The window is opaque"
-                << " with dust and grime. It isn't pretty, but it's cheap."
-                << endl;
-          } else {
-            cout << "What is that?";
-          }
-        }
-        while (true) {
-          cout << "Your party assembles down in the tavern. They speak among"
-              << " themselves, trying to decide which party member should go out"
-              << " to get the parcel."
-              << endl
-              << "Who should go? Write the character's full name"
-              << endl;
-          string name = read_non_empty_line();
-          if (party.find(name) == party.end()) {
-            cout << "Maybe you suck at spelling, because no one with this name exists"
-                << endl;
-          } else {
-            cout << "Ok! You sent " << name << " to get the parcel" << endl;
-            break;
-          }
-        }
-      })
-    })
-  ));
+	prologue.and_then(std::shared_ptr<Chapter>(
+		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
+			Page([]{
+				std::cout << "Your party wakes up in their rooms of the inn. It's morning."
+						<< " They can hear the birds chirping and the nearby river flowing."
+						<< " They get out of bed and look around the tiny room they slept in."
+						<< std::endl
+						<< "As they begin to get dressed they remeber that their adventuring"
+						<< " contractor said he would be sending them a new task today."
+						<< " It would be in a parcel at the end of the long and twisted road"
+						<< " to the dropzone."
+						<< std::endl;
+				while (true)
+				{
+					std::cout << std::endl << "What should your party do?" << std::endl << std::endl
+							<< "-i Inspect Their Rooms" << std::endl
+							<< "-m Meet up in The Tavern Below Their Rooms" << std::endl;
+					std::string choice = io::read_non_empty_line();
+
+					if (choice == "m" || choice == "M") break;
+					if (choice == "i" || choice == "I")
+					{
+						std::cout << "Their rooms are small and dusty. Each character's"
+								<< " adventuring pack lays on the small bed. The window is"
+								<< " opaque with dust and grime. It isn't pretty,"
+								<< " but it's cheap." << std::endl;
+					}
+					else std::cout << "What is that?";
+				}
+				while (true)
+				{
+					std::cout << "Your party assembles down in the tavern. They speak among"
+							<< " themselves, trying to decide which party member should go out"
+							<< " to get the parcel."
+							<< std::endl
+							<< "Who should go? Write the character's full name"
+							<< std::endl;
+					std::string name = io::read_non_empty_line();
+					if (party.find(name) == party.end())
+					{
+						std::cout << "Maybe you suck at spelling,"
+								<< " because no one is called " << name
+								<< std::endl;
+					}
+					else
+					{
+						std::cout << "Ok! You sent " << name
+								<< " to get the parcel" << std::endl;
+						break;
+					}
+				}
+			})
+		})
+	));
 
 	prologue();
 	return 0;
