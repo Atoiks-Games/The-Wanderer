@@ -20,17 +20,17 @@
 
 #include "Player.hxx"
 
-tbrg3::players::Infernal::Infernal()
+wanderer::players::Infernal::Infernal()
 	: Player()
 {
 }
 
-tbrg3::players::Infernal::~Infernal()
+wanderer::players::Infernal::~Infernal()
 {
 }
 
 void
-tbrg3::players::Infernal::gen_stats()
+wanderer::players::Infernal::gen_stats()
 {
 	base_stats(*this);
 	wisdom += 2;
@@ -39,7 +39,7 @@ tbrg3::players::Infernal::gen_stats()
 }
 
 std::string
-tbrg3::players::Infernal::default_greeter()
+wanderer::players::Infernal::default_greeter()
 {
 	return "Is it me or is it getting hot in here?";
 }

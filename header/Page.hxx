@@ -18,12 +18,12 @@
   *
   */
 
-#ifndef __TBRG_3_PAGE_H__
-#define __TBRG_3_PAGE_H__
+#ifndef __THE_WANDERER_PAGE_H__
+#define __THE_WANDERER_PAGE_H__
 
 #include <functional>
 
-namespace tbrg3
+namespace wanderer
 {
 	class Page final
 	{

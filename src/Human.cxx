@@ -20,17 +20,17 @@
 
 #include "Player.hxx"
 
-tbrg3::players::Human::Human()
+wanderer::players::Human::Human()
 	: Player()
 {
 }
 
-tbrg3::players::Human::~Human()
+wanderer::players::Human::~Human()
 {
 }
 
 void
-tbrg3::players::Human::gen_stats()
+wanderer::players::Human::gen_stats()
 {
 	base_stats(*this);
 	charisma += 2;
@@ -39,7 +39,7 @@ tbrg3::players::Human::gen_stats()
 }
 
 std::string
-tbrg3::players::Human::default_greeter()
+wanderer::players::Human::default_greeter()
 {
 	return "Yay! (Goes back to doing Human stuff, you know...)";
 }

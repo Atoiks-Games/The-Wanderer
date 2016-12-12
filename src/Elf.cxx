@@ -20,17 +20,17 @@
 
 #include "Player.hxx"
 
-tbrg3::players::Elf::Elf()
+wanderer::players::Elf::Elf()
 	: Player()
 {
 }
 
-tbrg3::players::Elf::~Elf()
+wanderer::players::Elf::~Elf()
 {
 }
 
 void
-tbrg3::players::Elf::gen_stats()
+wanderer::players::Elf::gen_stats()
 {
 	base_stats(*this);
 	intelligence += 2;
@@ -39,7 +39,7 @@ tbrg3::players::Elf::gen_stats()
 }
 
 std::string
-tbrg3::players::Elf::default_greeter()
+wanderer::players::Elf::default_greeter()
 {
 	return "You are now an elf! A very popular choice...";
 }

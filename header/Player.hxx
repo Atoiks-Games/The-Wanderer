@@ -18,13 +18,13 @@
   *
   */
 
-#ifndef __TBRG_3_PLAYER_H__
-#define __TBRG_3_PLAYER_H__
+#ifndef __THE_WANDERER_PLAYER_H__
+#define __THE_WANDERER_PLAYER_H__
 
 #include <string>
 #include <random>
 
-namespace tbrg3
+namespace wanderer
 {
 	class Player
 	{

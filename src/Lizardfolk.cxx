@@ -20,17 +20,17 @@
 
 #include "Player.hxx"
 
-tbrg3::players::Lizardfolk::Lizardfolk()
+wanderer::players::Lizardfolk::Lizardfolk()
 	: Player()
 {
 }
 
-tbrg3::players::Lizardfolk::~Lizardfolk()
+wanderer::players::Lizardfolk::~Lizardfolk()
 {
 }
 
 void
-tbrg3::players::Lizardfolk::gen_stats()
+wanderer::players::Lizardfolk::gen_stats()
 {
 	base_stats(*this);
 	strength += 2;
@@ -39,7 +39,7 @@ tbrg3::players::Lizardfolk::gen_stats()
 }
 
 std::string
-tbrg3::players::Lizardfolk::default_greeter()
+wanderer::players::Lizardfolk::default_greeter()
 {
 	return "Hisssssssss";
 }

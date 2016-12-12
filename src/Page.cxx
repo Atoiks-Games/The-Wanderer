@@ -20,17 +20,17 @@
 
 #include "Page.hxx"
 
-tbrg3::Page::Page(std::function<void(void)> _act)
+wanderer::Page::Page(std::function<void(void)> _act)
 	: act(_act)
 {
 }
 
-tbrg3::Page::~Page()
+wanderer::Page::~Page()
 {
 }
 
 void
-tbrg3::Page::operator()()
+wanderer::Page::operator()()
 {
 	act();
 }

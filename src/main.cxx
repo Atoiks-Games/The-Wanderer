@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <functional>
 
-using namespace tbrg3;
+using namespace wanderer;
 using namespace utils;
 
 std::unique_ptr<Player>

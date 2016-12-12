@@ -4,7 +4,7 @@ CXXFLAGS := -std=c++11 -Wall -O3
 HEADERS := header
 SRCDIR := src
 OBJDIR := build
-BUILD := tbrg3
+BUILD := the_wanderer
 
 CXX_SRCS := $(wildcard $(SRCDIR)/*.cxx)
 CXX_OBJS := $(patsubst $(SRCDIR)/%.cxx,$(OBJDIR)/%.cxx.o,$(CXX_SRCS))

@@ -20,17 +20,17 @@
 
 #include "Player.hxx"
 
-tbrg3::players::Gnome::Gnome()
+wanderer::players::Gnome::Gnome()
 	: Player()
 {
 }
 
-tbrg3::players::Gnome::~Gnome()
+wanderer::players::Gnome::~Gnome()
 {
 }
 
 void
-tbrg3::players::Gnome::gen_stats()
+wanderer::players::Gnome::gen_stats()
 {
 	base_stats(*this);
 	dexterity += 2;
@@ -39,7 +39,7 @@ tbrg3::players::Gnome::gen_stats()
 }
 
 std::string
-tbrg3::players::Gnome::default_greeter()
+wanderer::players::Gnome::default_greeter()
 {
 	return "You are now a gnome! How cute!";
 }

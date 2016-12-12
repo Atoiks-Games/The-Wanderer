@@ -18,8 +18,8 @@
   *
   */
 
-#ifndef __TBRG_3_UTILS_HXX__
-#define __TBRG_3_UTILS_HXX__
+#ifndef __THE_WANDERER_UTILS_HXX__
+#define __THE_WANDERER_UTILS_HXX__
 
 #include <cctype>
 #include <locale>

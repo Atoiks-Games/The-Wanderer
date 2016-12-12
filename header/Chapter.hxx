@@ -18,8 +18,8 @@
   *
   */
 
-#ifndef __TBRG_3_CHAPTER_H__
-#define __TBRG_3_CHAPTER_H__
+#ifndef __THE_WANDERER_CHAPTER_H__
+#define __THE_WANDERER_CHAPTER_H__
 
 #include "Page.hxx"
 
@@ -27,7 +27,7 @@
 #include <vector>
 #include <iostream>
 
-namespace tbrg3
+namespace wanderer
 {
 	class Chapter final
 	{
