@@ -9,14 +9,3 @@ before_build:
     cmake ..
 build:
   verbosity: minimal
-deploy:
-- provider: GitHub
-  tag: b$(appveyor_build_version)
-  release: SNAPSHOT
-  description: This release is the most bleeding edge you can ever find
-  auth_token:
-    secure: JsX0E9E4jFTZYOd5f18o+5k5s3Suce4JgVlySFWWK9wQC/jhLDUwQrHLrFrQ83P2
-  artifact: C:\projects\the-wanderer\build\Debug\the_wanderer.exe
-  draft: false
-  prerelease: true
-  force_update: true
