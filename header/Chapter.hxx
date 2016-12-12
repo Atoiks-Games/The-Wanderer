@@ -22,6 +22,7 @@
 #define __THE_WANDERER_CHAPTER_H__
 
 #include "Page.hxx"
+#include "Party.hxx"
 
 #include <string>
 #include <memory>
@@ -40,7 +41,7 @@ namespace wanderer
 		Chapter(std::string name, std::vector<Page> pages);
 		~Chapter();
 		void and_then(std::shared_ptr<Chapter> next);
-		void operator()();
+		void operator()(Party &info);
 	};
 };
 

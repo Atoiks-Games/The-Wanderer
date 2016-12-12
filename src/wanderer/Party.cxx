@@ -27,6 +27,11 @@ namespace wanderer
 	{
 	}
 
+	Party::Party(const Party &ref)
+		: players(ref.players)
+	{
+	}
+
 	Party::Party(Party &&mref)
 		: Party()
 	{
@@ -35,6 +40,29 @@ namespace wanderer
 
 	Party::~Party()
 	{
+	}
+
+	std::shared_ptr<Player>
+	Party::find_player(std::string name)
+	{
+		auto pl = players.find(name);
+		if (pl == players.end()) return std::shared_ptr<Player>(nullptr);
+		return pl->second;
+	}
+
+	std::shared_ptr<Player>
+	Party::remove_player(std::string name)
+	{
+		auto pl = players.find(name);
+		if (pl == players.end()) return std::shared_ptr<Player>(nullptr);
+		players.erase(pl);
+		return pl->second;
+	}
+
+	std::shared_ptr<Player> &
+	Party::operator[](std::string name)
+	{
+		return players[name];
 	}
 
 	void

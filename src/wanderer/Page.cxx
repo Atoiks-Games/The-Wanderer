@@ -20,7 +20,7 @@
 
 #include "Page.hxx"
 
-wanderer::Page::Page(std::function<void(void)> _act)
+wanderer::Page::Page(std::function<void(Party&)> _act)
 	: act(_act)
 {
 }
@@ -30,7 +30,7 @@ wanderer::Page::~Page()
 }
 
 void
-wanderer::Page::operator()()
+wanderer::Page::operator()(Party &info)
 {
-	act();
+	act(info);
 }

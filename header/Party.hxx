@@ -33,12 +33,16 @@ namespace wanderer
 	class Party final
 	{
 	private:
-		std::map<std::string, std::unique_ptr<Player>> players;
+		std::map<std::string, std::shared_ptr<Player>> players;
 	public:
 		Party();
-		Party(const Party &ref) = delete;
+		Party(const Party &ref);
 		Party(Party &&mref);
 		~Party();
+
+		std::shared_ptr<Player> find_player(std::string name);
+		std::shared_ptr<Player> remove_player(std::string name);
+		std::shared_ptr<Player> &operator[](std::string name);
 
 		friend void swap(Party &lhs, Party &rhs);
 	};

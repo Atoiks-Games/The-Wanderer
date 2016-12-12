@@ -19,9 +19,10 @@
   */
 
 #include "Page.hxx"
+#include "Utils.hxx"
+#include "Party.hxx"
 #include "Player.hxx"
 #include "Chapter.hxx"
-#include "Utils.hxx"
 
 #include <map>
 #include <memory>
@@ -70,14 +71,11 @@ read_player_race()
 	while (true);
 }
 
-// Consider making this into a separate class for more functionality
-std::map<std::string, std::unique_ptr<Player>> party;
-
 int
 main (int argc, char **argv)
 {
 	Chapter prologue("\n\n\t_PROLOGUE_\n\n", {
-		Page([]{
+		Page([](Party &_p){
 			std::cout <<
 "The Wanderer\nCopyright (C) 2016 Atoiks Games Group\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
@@ -85,10 +83,10 @@ main (int argc, char **argv)
 " under certain conditions. This program comes with ABSOLUTELY NO WARRANTY.\n"
 					<< std::endl;
 		}),
-		Page([]{
+		Page([](Party &party){
 			std::cout << "Give me your name" << std::endl;
 			std::string name = io::read_non_empty_line();
-			party[name] = std::move(read_player_race());
+			party[name] = mem::unique_to_shared(read_player_race());
 			std::cout << name << ": " << party[name]->default_greeter() <<
 "\nAlright " << name <<
 "! Give me three other names for your fellow party members" << std::endl;
@@ -97,16 +95,16 @@ main (int argc, char **argv)
 				do
 				{
 					name = io::read_non_empty_line(std::to_string(i + 1) + ">> ");
-					if (party.find(name) != party.end())
+					if (party.find_player(name).get() != nullptr)
 					{
-						std::cout << "There is already a party member with"
-								"the name " << name << ".\nTry again"
+						std::cout <<
+"There is already a party member with the name " << name << ".\nTry again"
 								<< std::endl;
 					}
 					else break;
 				}
 				while (true);
-				party[name] = std::move(read_player_race());
+				party[name] = mem::unique_to_shared(read_player_race());
 				std::cout << name << ": " << party[name]->default_greeter()
 						<< std::endl;
 			}
@@ -115,7 +113,7 @@ main (int argc, char **argv)
 
 	prologue.and_then(std::shared_ptr<Chapter>(
 		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
-			Page([]{
+			Page([](Party &party){
 				std::cout <<
 "Your party wakes up in their rooms of the inn. It's morning. They can hear "
 "the birds chirping and the nearby river flowing. "
@@ -152,7 +150,7 @@ main (int argc, char **argv)
 "should go out to get the parcel.\nWho should go? Write the character's "
 "full name" << std::endl;
 					std::string name = io::read_non_empty_line();
-					if (party.find(name) == party.end())
+					if (party.find_player(name).get() == nullptr)
 					{
 						std::cout <<
 "Maybe you suck at spelling, because no one is called " << name << std::endl;
@@ -169,6 +167,7 @@ main (int argc, char **argv)
 		})
 	));
 
-	prologue();
+	Party party;
+	prologue(party);
 	return 0;
 }

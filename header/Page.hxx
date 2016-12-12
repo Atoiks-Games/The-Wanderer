@@ -21,6 +21,9 @@
 #ifndef __THE_WANDERER_PAGE_H__
 #define __THE_WANDERER_PAGE_H__
 
+#include "Party.hxx"
+
+#include <memory>
 #include <functional>
 
 namespace wanderer
@@ -28,11 +31,11 @@ namespace wanderer
 	class Page final
 	{
 	private:
-		std::function<void(void)> act;
+		std::function<void(Party&)> act;
 	public:
-		Page(std::function<void(void)> act = []{});
+		Page(std::function<void(Party&)> act);
 		~Page();
-		void operator()();
+		void operator()(Party &info);
 	};
 };
 

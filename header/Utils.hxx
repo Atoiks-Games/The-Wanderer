@@ -42,6 +42,16 @@ namespace utils
 	{
 		std::string read_non_empty_line(std::string prompt = ">> ");
 	};
+	namespace mem
+	{
+		template<typename T>
+		std::shared_ptr<T>
+		unique_to_shared(std::unique_ptr<T> &&ref)
+		{
+			T *ptr = ref.release();
+			return std::shared_ptr<T>(ptr);
+		}
+	};
 };
 
 #endif

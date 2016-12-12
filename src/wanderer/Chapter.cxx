@@ -36,11 +36,11 @@ wanderer::Chapter::and_then(std::shared_ptr<Chapter> next)
 }
 
 void
-wanderer::Chapter::operator()()
+wanderer::Chapter::operator()(Party &info)
 {
 	std::cout << name << std::endl;
 	for (auto it = pages.begin(); it < pages.end(); ++it) {
-		(*it)();
+		(*it)(info);
 	}
-	if (next != nullptr) (*next)();
+	if (next != nullptr) (*next)(info);
 }
