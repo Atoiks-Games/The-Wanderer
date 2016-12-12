@@ -19,7 +19,7 @@ $(OBJDIR)/%.cxx.o: $(SRCDIR)/%.cxx
 	$(CXX) -I $(HEADERS) -c -o $@ $< $(CXXFLAGS)
 
 $(BUILD): $(OBJECTS)
-	$(CXX) -I $(HEADERS) -o $@ $^ $(CXXFLAGS)
+	$(CXX) -I $(HEADERS) -o $@ $^ $(CXXFLAGS) -Os -s -fdata-sections -ffunction-sections -Wl,--gc-sections,--strip-all
 
 .PHONY: clean
 .PHONY: clean-all
