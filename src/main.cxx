@@ -1,3 +1,23 @@
+/**
+  * main.cxx -- The entry point of the application
+  *
+  * Copyright (C) 2016 Atoiks Games Group
+  *
+  * The Wanderer is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your opinion) any later version.
+  *
+  * The Wanderer is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  *
+  */
+
 #include "Page.hxx"
 #include "Player.hxx"
 #include "Chapter.hxx"
@@ -57,6 +77,14 @@ int
 main (int argc, char **argv)
 {
 	Chapter prologue("\n\n\t_PROLOGUE_\n\n", {
+		Page([]{
+			std::cout <<
+"The Wanderer\nCopyright (C) 2016 Atoiks Games Group\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
+"\n\nThis is free software, and you are welcome to redistribute it"
+" under certain conditions. This program comes with ABSOLUTELY NO WARRANTY.\n"
+					<< std::endl;
+		}),
 		Page([]{
 			std::cout << "Give me your name" << std::endl;
 			std::string name = io::read_non_empty_line();
