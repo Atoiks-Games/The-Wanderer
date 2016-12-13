@@ -30,6 +30,24 @@ wanderer::Player::~Player()
 {
 }
 
+int
+wanderer::Player::gen_attack_to_hit() const
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> d(1, 20);
+	return d(gen) + intelligence;
+}
+
+int
+wanderer::Player::gen_chance_to_avoid() const
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> d(1, 20);
+	return d(gen) + dexterity;
+}
+
 namespace wanderer
 {
 	void base_stats(Player &p)

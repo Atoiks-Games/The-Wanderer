@@ -41,6 +41,9 @@ namespace wanderer
 		virtual void gen_stats() = 0;
 		virtual std::string default_greeter() = 0;
 
+		virtual int gen_attack_to_hit() const final;
+		virtual int gen_chance_to_avoid() const final;
+
 		friend void base_stats(Player &p);
 	};
 
