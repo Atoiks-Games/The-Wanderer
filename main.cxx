@@ -101,27 +101,26 @@ parcel_send_player(Party &party)
 	std::cout <<
 "Ok! You sent " << name << " to get the parcel" << std::endl;
 
-	static std::size_t wolves = 5;
-	if (wolves < 1) goto no_wolves;
+	static std::vector<enemies::Wolf> pack(5);
+	if (pack.empty()) goto no_wolves;
 
-	if (wolves == 1)
+	if (pack.size() == 1)
 	{
 		std::cout << name << ": I see a wolf." << std::endl;
 	}
 	else
 	{
 		std::cout << name <<
-": I see wolves. Wolves everywhere (" << wolves << " of them)!" << std::endl;
+": I see wolves. Wolves everywhere (" << pack.size() << " of them)!" <<
+std::endl;
 	}
 	{
-		std::vector<enemies::Wolf> pack(wolves);
-//		enemies::Wolf pack[wolves];
-		for (std::size_t i = 0; i < wolves; ++i)
+		auto player = party.find_player(name);
+		for (auto it = pack.begin(); it != pack.end(); ++it)
 		{
-			auto player = party.find_player(name);
 			do
 			{
-				if (pack[i].attack(*player))
+				if (it->attack(*player))
 				{
 					if (player->hitpoints < 1)
 					{
@@ -129,10 +128,10 @@ parcel_send_player(Party &party)
 " did not make it...\nThe remaining wolves seemed to have went away" <<
 std::endl;
 						party.remove_player(name);
-						wolves -= i;
 						if (party.empty())
 						{
-							std::cout << "All party members are dead!\nGG" << std::endl;
+							std::cout <<
+"All party members are dead!\nGG" << std::endl;
 							return false;
 						}
 
@@ -157,15 +156,17 @@ std::endl;
 				}
 				else
 				{
-					std::cout << name <<
-" dodged the wolf's attack" << std::endl;
+					std::cout << name << " dodged the wolf's attack" << std::endl;
 				}
 
-				if (player->attack(pack[i]))
+				if (pack.empty()) goto no_wolves;
+
+				if (player->attack(*it))
 				{
 					std::cout << name << " hit the wolf";
-					if (pack[i].hitpoints < 1)
+					if (it->hitpoints < 1)
 					{
+						pack.erase(it);
 						std::cout <<
 " and it is dead!\n" << name << " has " << player->hitpoints <<
 " hit points remaining\n" << std::endl;
@@ -181,7 +182,7 @@ std::endl;
 				{
 					std::cout <<
 name << " has hitpoints: " << player->hitpoints <<
-"\nWolves remaining: " << (wolves - i) << "\n\nHit enter to continue" <<
+"\nWolves remaining: " << pack.size() << "\n\nHit enter to continue" <<
 std::endl;
 					std::string t;
 					std::getline(std::cin, t);
@@ -190,7 +191,6 @@ std::endl;
 			while (true);
 		}
 	}
-	wolves = 0;
 no_wolves:
 	std::cout << "You successfully acquired the parcel!" << std::endl;
 	return true;
