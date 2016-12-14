@@ -29,6 +29,7 @@
 #include <map>
 #include <memory>
 #include <random>
+#include <vector>
 #include <iostream>
 #include <algorithm>
 #include <functional>
@@ -113,8 +114,8 @@ parcel_send_player(Party &party)
 ": I see wolves. Wolves everywhere (" << wolves << " of them)!" << std::endl;
 	}
 	{
-		constexpr std::size_t tmp = wolves;
-		enemies::Wolf pack[tmp];
+		std::vector<enemies::Wolf> pack(wolves);
+//		enemies::Wolf pack[wolves];
 		for (std::size_t i = 0; i < wolves; ++i)
 		{
 			auto player = party.find_player(name);
