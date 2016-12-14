@@ -18,11 +18,12 @@
   *
   */
 
-#include "Player.hxx"
+#include "Players.hxx"
 
 wanderer::players::Elf::Elf()
 	: Player()
 {
+	gen_stats();
 }
 
 wanderer::players::Elf::~Elf()

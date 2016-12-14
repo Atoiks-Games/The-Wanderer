@@ -19,10 +19,12 @@
   */
 
 #include "Page.hxx"
-#include "Utils.hxx"
 #include "Party.hxx"
+#include "Utils.hxx"
 #include "Player.hxx"
 #include "Chapter.hxx"
+#include "Enemies.hxx"
+#include "Players.hxx"
 
 #include <map>
 #include <memory>
@@ -30,8 +32,8 @@
 #include <algorithm>
 #include <functional>
 
-using namespace wanderer;
 using namespace utils;
+using namespace wanderer;
 
 std::unique_ptr<Player>
 read_player_race()
@@ -72,7 +74,7 @@ read_player_race()
 }
 
 int
-main (int argc, char **argv)
+main (void)
 {
 	Chapter prologue("\n\n\t_PROLOGUE_\n\n", {
 		Page([](Party &_p){
@@ -142,6 +144,7 @@ main (int argc, char **argv)
 				}
 				while (true);
 
+				std::string name;
 				do
 				{
 					std::cout <<
@@ -149,20 +152,77 @@ main (int argc, char **argv)
 "They speak among themselves, trying to decide which party member "
 "should go out to get the parcel.\nWho should go? Write the character's "
 "full name" << std::endl;
-					std::string name = io::read_non_empty_line();
+					name = io::read_non_empty_line();
 					if (party.find_player(name).get() == nullptr)
 					{
 						std::cout <<
 "Maybe you suck at spelling, because no one is called " << name << std::endl;
 					}
-					else
-					{
-						std::cout <<
-"Ok! You sent " << name << " to get the parcel" << std::endl;
-						break;
-					}
+					else break;
 				}
 				while (true);
+				std::cout <<
+"Ok! You sent " << name << " to get the parcel" << std::endl;
+
+				const std::size_t wolves = 2;
+				std::cout << name <<
+": I see wolves. Wolves everywhere (" << wolves << " of them)!" << std::endl;
+				enemies::Wolf pack[wolves];
+				for (std::size_t i = 0; i < wolves; ++i)
+				{
+					auto player = party.find_player(name);
+					do
+					{
+						if (pack[i].attack(*player))
+						{
+							if (player->hitpoints < 1)
+							{
+								std::cout << name <<
+" did not make it..." << std::endl;
+								party.remove_player(name);
+								goto end;
+							}
+							else
+							{
+								std::cout << name << ": Ouch!" << std::endl;
+							}
+						}
+						else
+						{
+							std::cout << name <<
+" dodged the wolf's attack" << std::endl;
+						}
+
+						if (player->attack(pack[i]))
+						{
+							std::cout << name <<
+" hit the wolf";
+							if (pack[i].hitpoints < 1)
+							{
+								std::cout <<
+" and it is dead!\n" << name << " has " << player->hitpoints <<
+" hit points remaining\n" << std::endl;
+								break;
+							}
+							std::cout << std::endl;
+						}
+						else
+						{
+							std::cout <<
+"The wolf dodged " << name << "'s attack" << std::endl;
+						}
+						{
+							std::cout <<
+name << " has hitpoints: " << player->hitpoints <<
+"\nWolves remaining: " << (wolves - i) << "\n\nHit enter to continue" <<
+std::endl;
+							std::string t;
+							std::getline(std::cin, t);
+						}
+					}
+					while (true);
+				}
+end: return;
 			})
 		})
 	));

@@ -18,11 +18,12 @@
   *
   */
 
-#include "Player.hxx"
+#include "Players.hxx"
 
 wanderer::players::Gnome::Gnome()
 	: Player()
 {
+	gen_stats();
 }
 
 wanderer::players::Gnome::~Gnome()

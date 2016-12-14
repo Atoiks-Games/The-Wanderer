@@ -1,5 +1,5 @@
 /**
-  * Dwarf.cxx -- A playable character with the race of dwarf
+  * Enemies.hxx -- All enemies
   *
   * Copyright (C) 2016 Atoiks Games Group
   *
@@ -18,29 +18,26 @@
   *
   */
 
-#include "Players.hxx"
+#ifndef __THE_WANDERER_ENEMIES_HXX__
+#define __THE_WANDERER_ENEMIES_HXX__
 
-wanderer::players::Dwarf::Dwarf()
-  : Player()
-{
-  gen_stats();
-}
+#include "Player.hxx"
 
-wanderer::players::Dwarf::~Dwarf()
-{
-}
+#include <string>
 
-void
-wanderer::players::Dwarf::gen_stats()
+namespace wanderer
 {
-	base_stats(*this); 
-	constitution += 2;
-	strength += 1;
-	dexterity -= 1;
-}
+	namespace enemies
+	{
+		class Wolf : public Player
+		{
+		public:
+			Wolf();
+			~Wolf();
+			void gen_stats();
+			std::string default_greeter();
+		};
+	};
+};
 
-std::string
-wanderer::players::Dwarf::default_greeter()
-{
-	return "You are now a dwarf! Diggy Diggy Hole!";
-}
+#endif

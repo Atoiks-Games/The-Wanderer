@@ -18,11 +18,12 @@
   *
   */
 
-#include "Player.hxx"
+#include "Players.hxx"
 
 wanderer::players::Human::Human()
 	: Player()
 {
+	gen_stats();
 }
 
 wanderer::players::Human::~Human()

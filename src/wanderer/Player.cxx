@@ -21,8 +21,8 @@
 #include "Player.hxx"
 
 wanderer::Player::Player()
-  : strength(0), dexterity(0), constitution(0), intelligence(0),
-  wisdom(0), charisma(0)
+  : strength(0), dexterity(0), constitution(0),
+	intelligence(0), wisdom(0), charisma(0), hitpoints(5)
 {
 }
 
@@ -48,6 +48,17 @@ wanderer::Player::gen_chance_to_avoid() const
 	return d(gen) + dexterity;
 }
 
+bool
+wanderer::Player::attack(Player &p)
+{
+	const int my_roll = gen_attack_to_hit();
+	const int their_roll = p.gen_chance_to_avoid();
+
+	if (my_roll < their_roll) return false;
+	p.hitpoints -= this->strength;
+	return true;
+}
+
 namespace wanderer
 {
 	void base_stats(Player &p)
@@ -61,5 +72,7 @@ namespace wanderer
 		p.intelligence = d(gen) + d(gen) + d(gen);
 		p.wisdom = d(gen) + d(gen) + d(gen);
 		p.charisma = d(gen) + d(gen) + d(gen);
+		p.hitpoints = p.constitution - 2;
+		if (p.hitpoints < 10)  p.hitpoints = 10;
 	}
 };

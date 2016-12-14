@@ -18,11 +18,12 @@
   *
   */
 
-#include "Player.hxx"
+#include "Players.hxx"
 
 wanderer::players::Infernal::Infernal()
 	: Player()
 {
+	gen_stats();
 }
 
 wanderer::players::Infernal::~Infernal()

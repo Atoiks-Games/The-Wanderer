@@ -55,8 +55,9 @@ namespace wanderer
 	{
 		auto pl = players.find(name);
 		if (pl == players.end()) return std::shared_ptr<Player>(nullptr);
+		auto ret = pl->second;
 		players.erase(pl);
-		return pl->second;
+		return ret;
 	}
 
 	std::shared_ptr<Player> &

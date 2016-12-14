@@ -18,11 +18,12 @@
   *
   */
 
-#include "Player.hxx"
+#include "Players.hxx"
 
 wanderer::players::Lizardfolk::Lizardfolk()
 	: Player()
 {
+	gen_stats();
 }
 
 wanderer::players::Lizardfolk::~Lizardfolk()

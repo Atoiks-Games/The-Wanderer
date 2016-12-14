@@ -1,5 +1,5 @@
 /**
-  * Dwarf.cxx -- A playable character with the race of dwarf
+  * Wolf.cxx -- A wolf. (Not a pack, just one)
   *
   * Copyright (C) 2016 Atoiks Games Group
   *
@@ -18,29 +18,33 @@
   *
   */
 
-#include "Players.hxx"
+#include "Enemies.hxx"
 
-wanderer::players::Dwarf::Dwarf()
-  : Player()
+namespace wanderer
 {
-  gen_stats();
-}
+	namespace enemies
+	{
+		Wolf::Wolf()
+			: Player()
+		{
+			gen_stats();
+		}
 
-wanderer::players::Dwarf::~Dwarf()
-{
-}
+		Wolf::~Wolf()
+		{
+		}
 
-void
-wanderer::players::Dwarf::gen_stats()
-{
-	base_stats(*this); 
-	constitution += 2;
-	strength += 1;
-	dexterity -= 1;
-}
+		void
+		Wolf::gen_stats()
+		{
+			base_stats(*this);
+			hitpoints = 5;
+		}
 
-std::string
-wanderer::players::Dwarf::default_greeter()
-{
-	return "You are now a dwarf! Diggy Diggy Hole!";
-}
+		std::string
+		Wolf::default_greeter()
+		{
+			return "Wooof!";
+		}
+	};
+};
