@@ -28,6 +28,7 @@
 
 #include <map>
 #include <memory>
+#include <random>
 #include <iostream>
 #include <algorithm>
 #include <functional>
@@ -82,8 +83,9 @@ main (void)
 "The Wanderer\nCopyright (C) 2016 Atoiks Games Group\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
 "\n\nThis is free software, and you are welcome to redistribute it"
-" under certain conditions. This program comes with ABSOLUTELY NO WARRANTY.\n"
-					<< std::endl;
+" under certain conditions. This program comes with ABSOLUTELY NO WARRANTY.\n" <<
+std::endl;
+			return true;
 		}),
 		Page([](Party &party){
 			std::cout << "Give me your name" << std::endl;
@@ -110,12 +112,13 @@ main (void)
 				std::cout << name << ": " << party[name]->default_greeter()
 						<< std::endl;
 			}
+			return true;
 		})
 	});
 
 	prologue.and_then(std::shared_ptr<Chapter>(
 		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
-			Page([](Party &party){
+			Page([](Party &party) -> bool {
 				std::cout <<
 "Your party wakes up in their rooms of the inn. It's morning. They can hear "
 "the birds chirping and the nearby river flowing. "
@@ -178,9 +181,20 @@ main (void)
 							if (player->hitpoints < 1)
 							{
 								std::cout << name <<
-" did not make it..." << std::endl;
+" did not make it...\nThe remaining wolves seemed to have went away" <<
+std::endl;
 								party.remove_player(name);
-								goto end;
+								std::random_device rd;
+								std::mt19937 gen(rd());
+								std::uniform_int_distribution<> d(1, 10);
+								if (d(gen) > 6)
+								{
+									std::cout <<
+"One of your party members 'senses' the death of " << name <<
+"and has decided to abort the mission!\n\nGG" << std::endl;
+									return false;
+								}
+								return true;
 							}
 							else
 							{
@@ -222,7 +236,7 @@ std::endl;
 					}
 					while (true);
 				}
-end: return;
+				return true;
 			})
 		})
 	));

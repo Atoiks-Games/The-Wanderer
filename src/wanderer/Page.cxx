@@ -22,7 +22,7 @@
 
 namespace wanderer
 {
-	Page::Page(std::function<void(Party&)> _act)
+	Page::Page(std::function<bool(Party&)> _act)
 		: act(_act)
 	{
 	}
@@ -49,10 +49,10 @@ namespace wanderer
 		return *this;
 	}
 
-	void
+	bool
 	Page::operator()(Party &info)
 	{
-		act(info);
+		return act(info);
 	}
 
 	void

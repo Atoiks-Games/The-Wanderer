@@ -32,15 +32,15 @@ namespace wanderer
 	class Page final
 	{
 	private:
-		std::function<void(Party&)> act;
+		std::function<bool(Party&)> act;
 	public:
-		Page(std::function<void(Party&)> act = [](Party &_r){});
+		Page(std::function<bool(Party&)> act = [](Party &_r){ return true; });
 		Page(const Page &ref);
 		Page(Page &&mref);
 		~Page();
 
 		Page &operator=(Page ref);
-		void operator()(Party &info);
+		bool operator()(Party &info);
 
 		friend void swap(Page &lhs, Page &rhs);
 	};
