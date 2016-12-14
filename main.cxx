@@ -74,6 +74,170 @@ read_player_race()
 	while (true);
 }
 
+bool parcel_send_player(Party &p);
+bool parcel_on_wolf_killed_player(Party &p, const std::string &n, bool f=true);
+
+bool
+parcel_send_player(Party &party)
+{
+	std::string name;
+	do
+	{
+		std::cout <<
+"Your party assembles down in the tavern. "
+"They speak among themselves, trying to decide which party member "
+"should go out to get the parcel.\nWho should go? Write the character's "
+"full name" << std::endl;
+		name = io::read_non_empty_line();
+		if (party.find_player(name).get() == nullptr)
+		{
+			std::cout <<
+"Maybe you suck at spelling, because no one is called " << name << std::endl;
+		}
+		else break;
+	}
+	while (true);
+	std::cout <<
+"Ok! You sent " << name << " to get the parcel" << std::endl;
+
+	static std::size_t wolves = 5;
+	if (wolves < 1) goto no_wolves;
+
+	if (wolves == 1)
+	{
+		std::cout << name << ": I see a wolf." << std::endl;
+	}
+	else
+	{
+		std::cout << name <<
+": I see wolves. Wolves everywhere (" << wolves << " of them)!" << std::endl;
+	}
+	{
+		enemies::Wolf pack[wolves];
+		for (std::size_t i = 0; i < wolves; ++i)
+		{
+			auto player = party.find_player(name);
+			do
+			{
+				if (pack[i].attack(*player))
+				{
+					if (player->hitpoints < 1)
+					{
+						std::cout << name <<
+" did not make it...\nThe remaining wolves seemed to have went away" <<
+std::endl;
+						party.remove_player(name);
+						wolves -= i;
+						if (party.empty())
+						{
+							std::cout << "All party members are dead!\nGG" << std::endl;
+							return false;
+						}
+
+						std::random_device rd;
+						std::mt19937 gen(rd());
+						std::uniform_int_distribution<> d(1, 10);
+						if (d(gen) > 6)
+						{
+							std::cout <<
+"One of your party members 'senses' the death of " << name << std::endl;
+							return parcel_on_wolf_killed_player(party, name);
+						}
+						std::cout <<
+"\n\t...Five years later...\n\n" << name << " has not returned.\n"
+"It is clear to the other group members that " << name << " is in trouble.\n";
+						return parcel_on_wolf_killed_player(party, name, false);
+					}
+					else
+					{
+						std::cout << name << ": Ouch!" << std::endl;
+					}
+				}
+				else
+				{
+					std::cout << name <<
+" dodged the wolf's attack" << std::endl;
+				}
+
+				if (player->attack(pack[i]))
+				{
+					std::cout << name << " hit the wolf";
+					if (pack[i].hitpoints < 1)
+					{
+						std::cout <<
+" and it is dead!\n" << name << " has " << player->hitpoints <<
+" hit points remaining\n" << std::endl;
+						break;
+					}
+					std::cout << std::endl;
+				}
+				else
+				{
+					std::cout <<
+"The wolf dodged " << name << "'s attack" << std::endl;
+				}
+				{
+					std::cout <<
+name << " has hitpoints: " << player->hitpoints <<
+"\nWolves remaining: " << (wolves - i) << "\n\nHit enter to continue" <<
+std::endl;
+					std::string t;
+					std::getline(std::cin, t);
+				}
+			}
+			while (true);
+		}
+	}
+	wolves = 0;
+no_wolves:
+	std::cout << "You successfully acquired the parcel!" << std::endl;
+	return true;
+}
+
+bool
+parcel_on_wolf_killed_player(Party &p, const std::string &name, bool realize)
+{
+	if (realize)
+	{
+		std::cout << p.begin()->first << ": " << name <<
+" died! What do you want to do?\n\n-w Kill the wolves";
+	}
+	else
+	{
+		std::cout << "What do you want to do?\n";
+	}
+	std::cout << "\n-s Send another player\n-a Abort the mission"
+"\n-c Try to kill the contractor" << std::endl;
+	do
+	{
+		std::string opt = io::read_non_empty_line();
+		if (opt == "a") return false;
+		if (opt == "s") return parcel_send_player(p);
+		if (opt == "w" && realize)
+		{
+			std::cout << p.begin()->first <<
+" failed to 'sense' any other wolves.";
+			if (!p.empty())
+			{
+				std::cout <<
+" The other members look at the player weird.";
+			}
+			std::cout << std::endl;
+			continue;
+		}
+		if (opt == "c")
+		{
+			std::cout <<
+"Turns out you are the contractor... You kill your fellow group mates and they"
+" all died. DO NOT TRY TO KILL THE CONTRACTOR!" << std::endl;
+			return false;
+		}
+		std::cout << "What is it?" << std::endl;
+	}
+	while (true);
+	return true;
+}
+
 int
 main (void)
 {
@@ -153,97 +317,7 @@ it->second->get_stats() << '\n' << std::endl;
 					else std::cout << "What is that?";
 				}
 				while (true);
-
-				std::string name;
-				do
-				{
-					std::cout <<
-"Your party assembles down in the tavern. "
-"They speak among themselves, trying to decide which party member "
-"should go out to get the parcel.\nWho should go? Write the character's "
-"full name" << std::endl;
-					name = io::read_non_empty_line();
-					if (party.find_player(name).get() == nullptr)
-					{
-						std::cout <<
-"Maybe you suck at spelling, because no one is called " << name << std::endl;
-					}
-					else break;
-				}
-				while (true);
-				std::cout <<
-"Ok! You sent " << name << " to get the parcel" << std::endl;
-
-				const std::size_t wolves = 2;
-				std::cout << name <<
-": I see wolves. Wolves everywhere (" << wolves << " of them)!" << std::endl;
-				enemies::Wolf pack[wolves];
-				for (std::size_t i = 0; i < wolves; ++i)
-				{
-					auto player = party.find_player(name);
-					do
-					{
-						if (pack[i].attack(*player))
-						{
-							if (player->hitpoints < 1)
-							{
-								std::cout << name <<
-" did not make it...\nThe remaining wolves seemed to have went away" <<
-std::endl;
-								party.remove_player(name);
-								std::random_device rd;
-								std::mt19937 gen(rd());
-								std::uniform_int_distribution<> d(1, 10);
-								if (d(gen) > 6)
-								{
-									std::cout <<
-"One of your party members 'senses' the death of " << name <<
-" and has decided to abort the mission!\n\nGG" << std::endl;
-									return false;
-								}
-								return true;
-							}
-							else
-							{
-								std::cout << name << ": Ouch!" << std::endl;
-							}
-						}
-						else
-						{
-							std::cout << name <<
-" dodged the wolf's attack" << std::endl;
-						}
-
-						if (player->attack(pack[i]))
-						{
-							std::cout << name <<
-" hit the wolf";
-							if (pack[i].hitpoints < 1)
-							{
-								std::cout <<
-" and it is dead!\n" << name << " has " << player->hitpoints <<
-" hit points remaining\n" << std::endl;
-								break;
-							}
-							std::cout << std::endl;
-						}
-						else
-						{
-							std::cout <<
-"The wolf dodged " << name << "'s attack" << std::endl;
-						}
-						{
-							std::cout <<
-name << " has hitpoints: " << player->hitpoints <<
-"\nWolves remaining: " << (wolves - i) << "\n\nHit enter to continue" <<
-std::endl;
-							std::string t;
-							std::getline(std::cin, t);
-						}
-					}
-					while (true);
-				}
-				return true;
+				return parcel_send_player(party);
 			})
 		})
 	));

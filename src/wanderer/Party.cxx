@@ -85,6 +85,18 @@ namespace wanderer
 		return players.end();
 	}
 
+	bool
+	Party::empty() const
+	{
+		return players.empty();
+	}
+
+	std::size_t
+	Party::size() const
+	{
+		return players.size();
+	}
+
 	void
 	swap(Party &lhs, Party &rhs)
 	{
