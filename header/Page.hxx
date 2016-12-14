@@ -24,6 +24,7 @@
 #include "Party.hxx"
 
 #include <memory>
+#include <algorithm>
 #include <functional>
 
 namespace wanderer
@@ -33,9 +34,15 @@ namespace wanderer
 	private:
 		std::function<void(Party&)> act;
 	public:
-		Page(std::function<void(Party&)> act);
+		Page(std::function<void(Party&)> act = [](Party &_r){});
+		Page(const Page &ref);
+		Page(Page &&mref);
 		~Page();
+
+		Page &operator=(Page ref);
 		void operator()(Party &info);
+
+		friend void swap(Page &lhs, Page &rhs);
 	};
 };
 

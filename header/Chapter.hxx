@@ -28,6 +28,7 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 namespace wanderer
 {
@@ -37,11 +38,19 @@ namespace wanderer
 		std::string name;
 		std::vector<Page> pages;
 		std::shared_ptr<Chapter> next;
+		Chapter();
 	public:
 		Chapter(std::string name, std::vector<Page> pages);
+		Chapter(const Chapter &ref);
+		Chapter(Chapter &&mref);
 		~Chapter();
+
+		Chapter &operator=(Chapter ref);
+
 		void and_then(std::shared_ptr<Chapter> next);
 		void operator()(Party &info);
+
+		friend void swap(Chapter &lhs, Chapter &rhs);
 	};
 };
 

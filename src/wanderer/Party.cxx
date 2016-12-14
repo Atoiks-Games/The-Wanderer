@@ -42,6 +42,13 @@ namespace wanderer
 	{
 	}
 
+	Party &
+	Party::operator=(Party ref)
+	{
+		swap(*this, ref);
+		return *this;
+	}
+
 	std::shared_ptr<Player>
 	Party::find_player(std::string name)
 	{

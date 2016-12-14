@@ -40,6 +40,8 @@ namespace wanderer
 		Party(Party &&mref);
 		~Party();
 
+		Party &operator=(Party ref);
+
 		std::shared_ptr<Player> find_player(std::string name);
 		std::shared_ptr<Player> remove_player(std::string name);
 		std::shared_ptr<Player> &operator[](std::string name);

@@ -20,17 +20,46 @@
 
 #include "Page.hxx"
 
-wanderer::Page::Page(std::function<void(Party&)> _act)
-	: act(_act)
+namespace wanderer
 {
-}
+	Page::Page(std::function<void(Party&)> _act)
+		: act(_act)
+	{
+	}
 
-wanderer::Page::~Page()
-{
-}
+	Page::Page(const Page &ref)
+		: act(ref.act)
+	{
+	}
 
-void
-wanderer::Page::operator()(Party &info)
-{
-	act(info);
-}
+	Page::Page(Page &&mref)
+		: Page()
+	{
+		swap(*this, mref);
+	}
+
+	Page::~Page()
+	{
+	}
+
+	Page &
+	Page::operator=(Page ref)
+	{
+		swap(*this, ref);
+		return *this;
+	}
+
+	void
+	Page::operator()(Party &info)
+	{
+		act(info);
+	}
+
+	void
+	swap(Page &lhs, Page &rhs)
+	{
+		using std::swap;
+
+		swap(lhs.act, rhs.act);
+	}
+};

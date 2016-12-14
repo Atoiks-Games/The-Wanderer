@@ -20,13 +20,36 @@
 
 #include "Chapter.hxx"
 
+wanderer::Chapter::Chapter()
+	: name(), pages(), next(nullptr)
+{
+}
+
 wanderer::Chapter::Chapter(std::string _n, std::vector<Page> _p)
 	: name(_n), pages(_p), next(nullptr)
 {
 }
 
+wanderer::Chapter::Chapter(const Chapter &ref)
+	: name(ref.name), pages(ref.pages), next(ref.next)
+{
+}
+
+wanderer::Chapter::Chapter(Chapter &&mref)
+	: Chapter()
+{
+	swap(*this, mref);
+}
+
 wanderer::Chapter::~Chapter()
 {
+}
+
+wanderer::Chapter &
+wanderer::Chapter::operator=(Chapter ref)
+{
+	swap(*this, ref);
+	return *this;
 }
 
 void
@@ -44,3 +67,16 @@ wanderer::Chapter::operator()(Party &info)
 	}
 	if (next != nullptr) (*next)(info);
 }
+
+namespace wanderer
+{
+	void
+	swap(Chapter &lhs, Chapter &rhs)
+	{
+		using std::swap;
+
+		swap(lhs.name, rhs.name);
+		swap(lhs.pages, rhs.pages);
+		swap(lhs.next, rhs.next);
+	}
+};
