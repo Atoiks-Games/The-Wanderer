@@ -10,7 +10,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
     set(CMAKE_EXE_LINKER_FLAGS "-Os")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "/O2 /W4 /GR /EHsc")
-	set(CMAKE_EXE_LINKER_FLAGS "/OPT:REF /LTCG")
+	set(CMAKE_EXE_LINKER_FLAGS "/OPT:REF")
 endif()
 
 include_directories(${THE_WANDERER_SOURCE_DIR}/header)
