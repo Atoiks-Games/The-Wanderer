@@ -44,3 +44,9 @@ wanderer::players::Infernal::default_greeter()
 {
 	return "Is it me or is it getting hot in here?";
 }
+
+std::string
+wanderer::players::Infernal::class_name()
+{
+	return "Infernal";
+}

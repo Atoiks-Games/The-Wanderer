@@ -35,6 +35,7 @@ wanderer::players::Dwarf::gen_stats()
 {
 	base_stats(*this); 
 	constitution += 2;
+	hitpoints += 2;
 	strength += 1;
 	dexterity -= 1;
 }
@@ -43,4 +44,10 @@ std::string
 wanderer::players::Dwarf::default_greeter()
 {
 	return "You are now a dwarf! Diggy Diggy Hole!";
+}
+
+std::string
+wanderer::players::Dwarf::class_name()
+{
+	return "Dwarf";
 }

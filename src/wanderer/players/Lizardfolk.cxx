@@ -36,6 +36,7 @@ wanderer::players::Lizardfolk::gen_stats()
 	base_stats(*this);
 	strength += 2;
 	constitution += 1;
+	hitpoints += 1;
 	charisma -= 1;
 }
 
@@ -43,4 +44,10 @@ std::string
 wanderer::players::Lizardfolk::default_greeter()
 {
 	return "Hisssssssss";
+}
+
+std::string
+wanderer::players::Lizardfolk::class_name()
+{
+	return "Lizardfolk";
 }

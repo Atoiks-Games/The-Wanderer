@@ -73,6 +73,18 @@ namespace wanderer
 		return players[name];
 	}
 
+	std::map<std::string, std::shared_ptr<Player>>::iterator
+	Party::begin()
+	{
+		return players.begin();
+	}
+	
+	std::map<std::string, std::shared_ptr<Player>>::iterator
+	Party::end()
+	{
+		return players.end();
+	}
+
 	void
 	swap(Party &lhs, Party &rhs)
 	{

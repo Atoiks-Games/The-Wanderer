@@ -46,6 +46,9 @@ namespace wanderer
 		std::shared_ptr<Player> remove_player(std::string name);
 		std::shared_ptr<Player> &operator[](std::string name);
 
+		std::map<std::string, std::shared_ptr<Player>>::iterator begin();
+		std::map<std::string, std::shared_ptr<Player>>::iterator end();
+
 		friend void swap(Party &lhs, Party &rhs);
 	};
 };

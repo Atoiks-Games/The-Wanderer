@@ -37,10 +37,17 @@ wanderer::players::Elf::gen_stats()
 	intelligence += 2;
 	dexterity += 1;
 	constitution -= 1;
+	hitpoints -= 1;
 }
 
 std::string
 wanderer::players::Elf::default_greeter()
 {
 	return "You are now an elf! A very popular choice...";
+}
+
+std::string
+wanderer::players::Elf::class_name()
+{
+	return "Elf";
 }

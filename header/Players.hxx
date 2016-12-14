@@ -34,6 +34,7 @@ namespace wanderer
 			~Dwarf();
 			void gen_stats();
 			std::string default_greeter();
+			std::string class_name();
 		};
 
 		class Human : public Player
@@ -43,6 +44,7 @@ namespace wanderer
 			~Human();
 			void gen_stats();
 			std::string default_greeter();
+			std::string class_name();
 		};
 
 		class Elf : public Player
@@ -52,6 +54,7 @@ namespace wanderer
 			~Elf();
 			void gen_stats();
 			std::string default_greeter();
+			std::string class_name();
 		};
 
 		class Gnome : public Player
@@ -61,6 +64,7 @@ namespace wanderer
 			~Gnome();
 			void gen_stats();
 			std::string default_greeter();
+			std::string class_name();
 		};
 
 		class Infernal : public Player
@@ -70,6 +74,7 @@ namespace wanderer
 			~Infernal();
 			void gen_stats();
 			std::string default_greeter();
+			std::string class_name();
 		};
 
 		class Lizardfolk : public Player
@@ -79,6 +84,7 @@ namespace wanderer
 			~Lizardfolk();
 			void gen_stats();
 			std::string default_greeter();
+			std::string class_name();
 		};
 	};
 };

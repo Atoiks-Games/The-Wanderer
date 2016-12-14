@@ -112,13 +112,20 @@ std::endl;
 				std::cout << name << ": " << party[name]->default_greeter()
 						<< std::endl;
 			}
+
+			for (auto it = party.begin(); it != party.end(); ++it)
+			{
+				std::cout << "Player: " << it->first <<
+'(' << it->second->class_name() << ")\n" <<
+it->second->get_stats() << '\n' << std::endl;
+			}
 			return true;
 		})
 	});
 
 	prologue.and_then(std::shared_ptr<Chapter>(
 		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
-			Page([](Party &party) -> bool {
+			Page([](Party &party){
 				std::cout <<
 "Your party wakes up in their rooms of the inn. It's morning. They can hear "
 "the birds chirping and the nearby river flowing. "

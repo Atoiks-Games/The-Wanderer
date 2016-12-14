@@ -38,13 +38,21 @@ namespace wanderer
 		Wolf::gen_stats()
 		{
 			base_stats(*this);
-			hitpoints = 5;
+			strength -= 5;
+			if (strength < 3) strength = 3;
+			hitpoints = 7;
 		}
 
 		std::string
 		Wolf::default_greeter()
 		{
 			return "Wooof!";
+		}
+
+		std::string
+		Wolf::class_name()
+		{
+			return "Wolf";
 		}
 	};
 };

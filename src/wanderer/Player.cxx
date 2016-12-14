@@ -30,6 +30,21 @@ wanderer::Player::~Player()
 {
 }
 
+std::string
+wanderer::Player::get_stats() const
+{
+	std::stringstream str;
+	str
+<<"Hitpoints    : " << hitpoints <<
+"\nStrength     : " << strength <<
+"\nDexterity    : " << dexterity <<
+"\nConstitution : " << constitution <<
+"\nIntelligence : " << intelligence <<
+"\nWisdom       : " << wisdom <<
+"\nCharisma     : " << charisma;
+	return str.str();
+}
+
 int
 wanderer::Player::gen_attack_to_hit() const
 {

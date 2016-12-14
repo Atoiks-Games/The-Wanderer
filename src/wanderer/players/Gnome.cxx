@@ -44,3 +44,9 @@ wanderer::players::Gnome::default_greeter()
 {
 	return "You are now a gnome! How cute!";
 }
+
+std::string
+wanderer::players::Gnome::class_name()
+{
+	return "Gnome";
+}

@@ -44,3 +44,9 @@ wanderer::players::Human::default_greeter()
 {
 	return "Yay! (Goes back to doing Human stuff, you know...)";
 }
+
+std::string
+wanderer::players::Human::class_name()
+{
+	return "Human";
+}
