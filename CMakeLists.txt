@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
+cmake_policy(SET CMP0054 NEW)
 project(THE_WANDERER)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
