@@ -113,7 +113,7 @@ parcel_send_player(Party &party)
 ": I see wolves. Wolves everywhere (" << wolves << " of them)!" << std::endl;
 	}
 	{
-		const std::size_t tmp = wolves;
+		constexpr std::size_t tmp = wolves;
 		enemies::Wolf pack[tmp];
 		for (std::size_t i = 0; i < wolves; ++i)
 		{
