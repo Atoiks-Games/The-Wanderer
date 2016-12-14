@@ -191,7 +191,7 @@ std::endl;
 								{
 									std::cout <<
 "One of your party members 'senses' the death of " << name <<
-"and has decided to abort the mission!\n\nGG" << std::endl;
+" and has decided to abort the mission!\n\nGG" << std::endl;
 									return false;
 								}
 								return true;
