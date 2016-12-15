@@ -63,6 +63,52 @@ wanderer::Player::gen_chance_to_avoid() const
 	return d(gen) + dexterity;
 }
 
+static inline
+int
+__default_dice_check_roll(const int base_value)
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> d(1, 20);
+	return base_value - 10 + d(gen);
+}
+
+int
+wanderer::Player::roll_strength() const
+{
+	return __default_dice_check_roll(strength);
+}
+
+int
+wanderer::Player::roll_dexterity() const
+{
+	return __default_dice_check_roll(dexterity);
+}
+
+int
+wanderer::Player::roll_constitution() const
+{
+	return __default_dice_check_roll(constitution);
+}
+
+int
+wanderer::Player::roll_intelligence() const
+{
+	return __default_dice_check_roll(intelligence);
+}
+
+int
+wanderer::Player::roll_wisdom() const
+{
+	return __default_dice_check_roll(wisdom);
+}
+
+int
+wanderer::Player::roll_charisma() const
+{
+	return __default_dice_check_roll(charisma);
+}
+ 
 bool
 wanderer::Player::attack(Player &p)
 {

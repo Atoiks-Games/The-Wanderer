@@ -286,13 +286,9 @@ std::endl;
 it->second->get_stats() << '\n' << std::endl;
 			}
 			return true;
-		})
-	});
-
-	prologue.and_then(std::shared_ptr<Chapter>(
-		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
-			Page([](Party &party){
-				std::cout <<
+		}),
+		Page([](Party &party){
+			std::cout <<
 "Your party wakes up in their rooms of the inn. It's morning. They can hear "
 "the birds chirping and the nearby river flowing. "
 "They get out of bed and look around the tiny room they slept in.\n "
@@ -300,26 +296,94 @@ it->second->get_stats() << '\n' << std::endl;
 "contractor said he would be sending them a new task today. "
 "It would be in a parcel at the end of the long and twisted road "
 "to the dropzone." << std::endl;
-				do
-				{
-					std::cout <<
+			do
+			{
+				std::cout <<
 "\nWhat should your party do?\n\n"
 "-i Inspect Their Rooms\n"
 "-m Meet up in The Tavern Below Their Rooms" << std::endl;
-					std::string choice = io::read_non_empty_line();
+				std::string choice = io::read_non_empty_line();
 
-					if (choice == "m" || choice == "M") break;
-					if (choice == "i" || choice == "I")
-					{
-						std::cout <<
+				if (choice == "m" || choice == "M") break;
+				if (choice == "i" || choice == "I")
+				{
+					std::cout <<
 "Their rooms are small and dusty. Each character's "
 "adventuring pack lays on the small bed. The window is "
 "opaque with dust and grime. It isn't pretty, but it's cheap." << std::endl;
+				}
+				else std::cout << "What is that?";
+			}
+			while (true);
+			return parcel_send_player(party);
+		}),
+	});
+
+	prologue.and_then(std::shared_ptr<Chapter>(
+		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
+			Page([](Party &p){
+				std::cout <<
+"Its been a month of travelling for your group. The contractor has sent the"
+" party to find the missing merchant with of name of Lasrof Icip. You arrive"
+" at the mouth of the cave where he is last seen. The snow storm has picked up"
+" up its intensity";
+				do
+				{
+					std::cout <<
+"\nDo you go inside?\n\n-i go inside\n-o stay outside\n-a look around" <<
+std::endl;
+					const std::string opt = io::read_non_empty_line();
+					if (opt == "a")
+					{
+						std::cout <<
+"You notice the cave mouth is about to collapse! You tread carefully into the"
+" cave and the entrance collapses behind you!" << std::endl;
+						return true;
 					}
-					else std::cout << "What is that?";
+					if (opt == "o")
+					{
+						std::cout <<
+"\n\n\t...Couple thousand years later...\n"
+"\t_NEWS HEADLINE: RESEARCHERS FIND ANCIENT ADVENTURERS FROZEN IN THE SNOW!_\n"
+"\n(FYI, Your party members are the 'ancient adventurers' "
+"in case you didn't realize)" << std::endl;
+						return false;
+					}
+					if (opt == "i")
+					{
+						std::cout <<
+"As you enter the cave, the cave collpases" << std::endl;
+						for (auto it = p.begin(); it != p.end(); ++it)
+						{
+							if (it->second->roll_dexterity() > 12)
+							{
+								std::cout << it->first <<
+" makes it into the cave" << std::endl;
+							}
+							else
+							{
+								std::cout << it->first <<
+" gets crushed and dies a quick painful death" << std::endl;
+								p.remove_player(it->first);
+								--it;
+							}
+						}
+						if (p.empty())
+						{
+							std::cout <<
+"All your party members died!" << std::endl;
+							return false;
+						}
+						return true;
+					}
+					std::cout << "What is that?" << std::endl;
 				}
 				while (true);
-				return parcel_send_player(party);
+				return true;
+			}),
+			Page([](Party &p){
+				std::cout << "You make it!" << std::endl;
+				return true;
 			})
 		})
 	));

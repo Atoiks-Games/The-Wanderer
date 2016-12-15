@@ -49,6 +49,13 @@ namespace wanderer
 		virtual int gen_attack_to_hit() const final;
 		virtual int gen_chance_to_avoid() const final;
 
+		virtual int roll_strength() const final;
+		virtual int roll_dexterity() const final;
+		virtual int roll_constitution() const final;
+		virtual int roll_intelligence() const final;
+		virtual int roll_wisdom() const final;
+		virtual int roll_charisma() const final;
+
 		virtual bool attack(Player &p) final;
 
 		friend void base_stats(Player &p);
