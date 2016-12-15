@@ -199,22 +199,27 @@ no_wolves:
 bool
 parcel_on_wolf_killed_player(Party &p, const std::string &name, bool realize)
 {
-	if (realize)
-	{
-		std::cout << p.begin()->first << ": " << name <<
-" died! What do you want to do?\n\n-w Kill the wolves";
-	}
-	else
-	{
-		std::cout << "What do you want to do?\n";
-	}
-	std::cout << "\n-s Send another player\n-a Abort the mission"
-"\n-c Try to kill the contractor" << std::endl;
+	if (realize) std::cout << p.begin()->first << ": " << name << " died! ";
 	do
 	{
-		std::string opt = io::read_non_empty_line();
-		if (opt == "a") return false;
+		if (realize)
+		{
+			std::cout << "What do you want to do?\n\n-w Kill the wolves";
+		}
+		else
+		{
+			std::cout << "What do you want to do?\n";
+		}
+		std::cout << "\n-s Send another player\n-a Abort the mission"
+"\n-c Try to kill the contractor" << std::endl;
+		const std::string opt = io::read_non_empty_line();
 		if (opt == "s") return parcel_send_player(p);
+		if (opt == "a")
+		{
+			std::cout <<
+"The contractor accepts your choice and then leaves" << std::endl;
+			return false;
+		}
 		if (opt == "w" && realize)
 		{
 			std::cout << p.begin()->first <<
