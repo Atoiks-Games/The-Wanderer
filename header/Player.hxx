@@ -21,6 +21,8 @@
 #ifndef __THE_WANDERER_PLAYER_H__
 #define __THE_WANDERER_PLAYER_H__
 
+#include "Inventory.hxx"
+
 #include <string>
 #include <random>
 #include <sstream>
@@ -29,6 +31,7 @@ namespace wanderer
 {
 	class Player
 	{
+	friend class Invetory;
 	protected:
 		int strength;
 		int dexterity;
@@ -36,6 +39,7 @@ namespace wanderer
 		int intelligence;
 		int wisdom;
 		int charisma;
+		Inventory inventory;
 	public:
 		int hitpoints;
 
