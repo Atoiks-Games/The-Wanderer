@@ -1,5 +1,6 @@
 version: 1.0.{build}
 image: Visual Studio 2015
+configuration: Release
 before_build:
 - cmd: >-
     mkdir build
@@ -8,4 +9,8 @@ before_build:
 
     cmake ..
 build:
+  parallel: true
   verbosity: minimal
+artifacts:
+- path: build\release\the_wanderer.exe
+  name: The Wanderer
