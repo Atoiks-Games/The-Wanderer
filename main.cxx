@@ -131,7 +131,7 @@ std::endl;
 						if (party.empty())
 						{
 							std::cout <<
-"All party members are dead!\nGG" << std::endl;
+"All party members are dead!" << std::endl;
 							return false;
 						}
 
@@ -370,7 +370,6 @@ std::endl;
 								std::cout << it->first <<
 " gets crushed and dies a quick painful death" << std::endl;
 								p.remove_player(it->first);
-								--it;
 							}
 						}
 						if (p.empty())
@@ -395,5 +394,9 @@ std::endl;
 
 	Party party;
 	prologue(party);
+
+	std::cout << "GG (Hit enter to quit)" << std::endl;
+	std::string t;
+	std::getline(std::cin, t);
 	return 0;
 }
