@@ -82,9 +82,8 @@ bool
 parcel_send_player(Party &party)
 {
 	std::cout <<
-"Your party assembles down in the tavern. "
-"They speak among themselves, trying to devide which party member "
-"should go out to get the parcel.\n";
+"Your party assembles down in the tavern. They speak among themselves, trying\n"
+"to decide which party member should go out to get the parcel.\n";
 	std::string name;
 	do
 	{
@@ -243,7 +242,7 @@ parcel_on_wolf_killed_player(Party &p, const std::string &name, bool realize)
 		{
 			std::cout <<
 "Turns out you are the contractor... You kill your fellow group mates and they"
-" all died. DO NOT TRY TO KILL THE CONTRACTOR!" << std::endl;
+"\nall died. DO NOT TRY TO KILL THE CONTRACTOR!" << std::endl;
 			return false;
 		}
 		std::cout << "What is it?" << std::endl;
@@ -260,8 +259,8 @@ main (void)
 			std::cout <<
 "The Wanderer\nCopyright (C) 2016 Atoiks Games Group\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
-"\n\nThis is free software, and you are welcome to redistribute it"
-" under certain conditions. This program comes with ABSOLUTELY NO WARRANTY.\n" <<
+"\nThis is free software, and you are welcome to redistribute it under certain"
+"\nconditions. This program comes with ABSOLUTELY NO WARRANTY.\n" <<
 std::endl;
 			return true;
 		}),
@@ -291,6 +290,7 @@ std::endl;
 						<< std::endl;
 			}
 
+			std::cout << '\n';
 			for (auto it = party.begin(); it != party.end(); ++it)
 			{
 				std::cout << "Player: " << it->first <<
@@ -301,13 +301,12 @@ it->second->get_stats() << '\n' << std::endl;
 		}),
 		Page([](Party &party){
 			std::cout <<
-"Your party wakes up in their rooms of the inn. It's morning. They can hear "
-"the birds chirping and the nearby river flowing. "
-"They get out of bed and look around the tiny room they slept in.\n "
-"As they begin to get dressed they remeber that their adventuring "
-"contractor said he would be sending them a new task today. "
-"It would be in a parcel at the end of the long and twisted road "
-"to the dropzone." << std::endl;
+"Your party wakes up in their rooms of the inn. It's morning. They can hear\n"
+"the birds chirping and the nearby river flowing. They get out of bed and\n"
+"look around the tiny room they slept in.\n"
+"As they begin to get dressed they remeber that their adventuring contractor\n"
+"said he would be sending them a new task today. It would be in a parcel at\n"
+"the end of the long and twisted road to the dropzone." << std::endl;
 			do
 			{
 				std::cout <<
@@ -320,9 +319,9 @@ it->second->get_stats() << '\n' << std::endl;
 				if (choice == "i" || choice == "I")
 				{
 					std::cout <<
-"Their rooms are small and dusty. Each character's "
-"adventuring pack lays on the small bed. The window is "
-"opaque with dust and grime. It isn't pretty, but it's cheap." << std::endl;
+"Their rooms are small and dusty. Each character's adventuring pack lays on\n"
+"the small bed. The window is opaque with dust and grime. It isn't pretty,\n"
+"but it's cheap." << std::endl;
 				}
 				else std::cout << "What is that?";
 			}
@@ -335,10 +334,10 @@ it->second->get_stats() << '\n' << std::endl;
 		new Chapter("\n\n\t_CHAPTER 1: The Missing Merchant_\n\n", {
 			Page([](Party &p){
 				std::cout <<
-"Its been a month of travelling for your group. The contractor has sent the"
-" party to find the missing merchant with of name of Lasrof Icip. You arrive"
-" at the mouth of the cave where he is last seen. The snow storm has picked up"
-" up its intensity";
+"Its been a month of travelling for your group. The contractor has sent the\n"
+"party to find the missing merchant with of name of Lasrof Icip. You arrive\n"
+"at the mouth of the cave where he is last seen. The snow storm has picked up\n"
+"up its intensity";
 				do
 				{
 					std::cout <<
@@ -348,8 +347,8 @@ std::endl;
 					if (opt == "a")
 					{
 						std::cout <<
-"You notice the cave mouth is about to collapse! You tread carefully into the"
-" cave and the entrance collapses behind you!" << std::endl;
+"You notice the cave mouth is about to collapse! You tread carefully into the\n"
+"cave and the entrance collapses behind you!" << std::endl;
 						return true;
 					}
 					if (opt == "o")
@@ -357,8 +356,7 @@ std::endl;
 						std::cout <<
 "\n\n\t...Couple thousand years later...\n"
 "\t_NEWS HEADLINE: RESEARCHERS FIND ANCIENT ADVENTURERS FROZEN IN THE SNOW!_\n"
-"\n(FYI, Your party members are the 'ancient adventurers' "
-"in case you didn't realize)" << std::endl;
+"\n(Your party members are the 'ancient adventurers' in case you didn't realize)" << std::endl;
 						return false;
 					}
 					if (opt == "i")
