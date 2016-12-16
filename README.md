@@ -1,4 +1,4 @@
-# The Wanderer [![Build status](https://ci.appveyor.com/api/projects/status/645n6swvtyeqj0w8/branch/master?svg=true)](https://ci.appveyor.com/project/plankp/the-wanderer/branch/master)
+# The Wanderer [![Build status](https://ci.appveyor.com/api/projects/status/645n6swvtyeqj0w8/branch/master?svg=true)](https://ci.appveyor.com/project/plankp/the-wanderer/branch/master) [![Build Status](https://drone.io/github.com/Atoiks-Games/The-Wanderer/status.png)](https://drone.io/github.com/Atoiks-Games/The-Wanderer/latest)
 
 The continuation of the tbrg series
 
@@ -8,7 +8,7 @@ You must have an CMake installation that is at least version 2.8.12!
 
 #### Linux or Msys2
 
-* g++ that supports C++11. Should be using at least version 5.3.0
+* g++ at least 4.8
 * Make
 
 At the root directory of the project:
