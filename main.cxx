@@ -358,26 +358,28 @@ std::endl;
 					{
 						std::cout <<
 "As you enter the cave, the cave collpases" << std::endl;
+						Party tmp;
 						for (auto it = p.begin(); it != p.end(); ++it)
 						{
 							if (it->second->roll_dexterity() > 12)
 							{
 								std::cout << it->first <<
 " makes it into the cave" << std::endl;
+								tmp[it->first] = it->second;
 							}
 							else
 							{
 								std::cout << it->first <<
 " gets crushed and dies a quick painful death" << std::endl;
-								p.remove_player(it->first);
 							}
 						}
-						if (p.empty())
+						if (tmp.empty())
 						{
 							std::cout <<
 "All your party members died!" << std::endl;
 							return false;
 						}
+						p = tmp;
 						return true;
 					}
 					std::cout << "What is that?" << std::endl;
@@ -395,7 +397,7 @@ std::endl;
 	Party party;
 	prologue(party);
 
-	std::cout << "GG (Hit enter to quit)" << std::endl;
+	std::cout << "\n\n\tGG (Hit enter to quit)" << std::endl;
 	std::string t;
 	std::getline(std::cin, t);
 	return 0;

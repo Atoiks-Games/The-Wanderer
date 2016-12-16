@@ -38,7 +38,7 @@ namespace wanderer
 		Wolf::gen_stats()
 		{
 			base_stats(*this);
-			strength -= 4;
+			strength -= 5;
 			if (strength < 3) strength = 3;
 			hitpoints = 8;
 		}

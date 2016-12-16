@@ -48,6 +48,7 @@ namespace wanderer
 
 		std::map<std::string, std::shared_ptr<Player>>::iterator begin();
 		std::map<std::string, std::shared_ptr<Player>>::iterator end();
+		void erase(std::map<std::string, std::shared_ptr<Player>>::iterator it);
 
 		bool empty() const;
 		std::size_t size() const;

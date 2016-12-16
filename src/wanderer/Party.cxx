@@ -85,6 +85,12 @@ namespace wanderer
 		return players.end();
 	}
 
+	void
+	Party::erase(std::map<std::string, std::shared_ptr<Player>>::iterator it)
+	{
+		players.erase(it);
+	}
+
 	bool
 	Party::empty() const
 	{
