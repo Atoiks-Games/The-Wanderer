@@ -118,6 +118,7 @@ std::endl;
 		auto player = party.find_player(name);
 		for (auto it = pack.begin(); it != pack.end(); ++it)
 		{
+			if (pack.empty()) goto no_wolves;
 			do
 			{
 				if (it->attack(*player))
@@ -179,16 +180,15 @@ std::endl;
 					std::cout <<
 "The wolf dodged " << name << "'s attack" << std::endl;
 				}
-				{
-					std::cout <<
+				std::cout <<
 name << " has hitpoints: " << player->hitpoints <<
 "\nWolves remaining: " << pack.size() << "\n\nHit enter to continue" <<
 std::endl;
-					std::string t;
-					std::getline(std::cin, t);
-				}
+				std::string t;
+				std::getline(std::cin, t);
 			}
 			while (true);
+			if (pack.empty()) goto no_wolves;
 		}
 	}
 no_wolves:
