@@ -39,6 +39,8 @@ namespace wanderer
 		{
 			base_stats(*this);
 			strength -= 5;
+			intelligence -= 2;
+			dexterity -= 3;
 			if (strength < 3) strength = 3;
 			hitpoints = 8;
 		}

@@ -81,19 +81,26 @@ bool parcel_on_wolf_killed_player(Party &p, const std::string &n, bool f=true);
 bool
 parcel_send_player(Party &party)
 {
+	std::cout <<
+"Your party assembles down in the tavern. "
+"They speak among themselves, trying to devide which party member "
+"should go out to get the parcel.\n";
 	std::string name;
 	do
 	{
 		std::cout <<
-"Your party assembles down in the tavern. "
-"They speak among themselves, trying to decide which party member "
-"should go out to get the parcel.\nWho should go? Write the character's "
-"full name" << std::endl;
+"Who should go? Write the character's full name" << std::endl;
 		name = io::read_non_empty_line();
 		if (party.find_player(name).get() == nullptr)
 		{
 			std::cout <<
-"Maybe you suck at spelling, because no one is called " << name << std::endl;
+"Maybe you suck at spelling, because no one is called " << name <<
+"\nChoices:\n";
+			for (auto it = party.begin(); it != party.end(); ++it)
+			{
+				std::cout << it->first << '\n';
+			}
+			std::cout << std::endl;
 		}
 		else break;
 	}
