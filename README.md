@@ -2,6 +2,16 @@
 
 The continuation of the tbrg series
 
+### Prebuilt versions
+
+#### Linux
+
+https://drone.io/github.com/Atoiks-Games/The-Wanderer/files
+
+#### Windows
+
+https://ci.appveyor.com/project/plankp/the-wanderer/build/artifacts
+
 ### Build Instructions
 
 You must have an CMake installation that is at least version 2.8.12!
