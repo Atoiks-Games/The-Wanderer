@@ -42,7 +42,7 @@ namespace wanderer
 
 		Inventory &operator=(Inventory ref);
 
-		int get_coins();
+		int get_coins() const;
 		int deposit(int val);
 		int withdraw(int val);
 

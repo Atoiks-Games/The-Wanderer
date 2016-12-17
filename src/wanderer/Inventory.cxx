@@ -52,7 +52,7 @@ namespace wanderer
 	}
 
 	int
-	Inventory::get_coins()
+	Inventory::get_coins() const
 	{
 		return coins;
 	}
