@@ -400,6 +400,16 @@ std::endl;
 				std::cout <<
 "You make your way in. The cave is cold and damp, the tunnel beckons you deeper"
 "\ninto the cave. Besides the door there is a small chest." << std::endl;
+				std::string mimic_senser = "";
+				for (auto it = p.begin(); it != p.end(); ++it)
+				{
+					if (it->second->roll_wisdom() > 6)
+					{
+						mimic_senser = it->first;
+						break;
+					}
+				}
+
 				do
 				{
 					std::cout <<
@@ -417,6 +427,12 @@ std::endl;
 						std::cout <<
 "It's a cave (with a tunnel and a small chest that is behind a door)" <<
 std::endl;
+						if (!mimic_senser.empty())
+						{
+							std::cout <<
+mimic_senser << ": I am pretty sure the chest has teeth!" << std::endl;
+						}
+
 						continue;
 					}
 					if (opt == "c")
