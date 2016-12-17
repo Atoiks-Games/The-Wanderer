@@ -47,8 +47,8 @@ namespace wanderer
 		virtual ~Player();
 		virtual void gen_stats() = 0;
 		virtual std::string get_stats() const final;
-		virtual std::string default_greeter() = 0;
-		virtual std::string class_name() = 0;
+		virtual std::string default_greeter() const = 0;
+		virtual std::string class_name() const = 0;
 
 		virtual int gen_attack_to_hit() const final;
 		virtual int gen_chance_to_avoid() const final;

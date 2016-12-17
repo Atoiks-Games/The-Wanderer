@@ -41,13 +41,13 @@ wanderer::players::Lizardfolk::gen_stats()
 }
 
 std::string
-wanderer::players::Lizardfolk::default_greeter()
+wanderer::players::Lizardfolk::default_greeter() const
 {
 	return "Hisssssssss";
 }
 
 std::string
-wanderer::players::Lizardfolk::class_name()
+wanderer::players::Lizardfolk::class_name() const
 {
 	return "Lizardfolk";
 }

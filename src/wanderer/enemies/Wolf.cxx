@@ -46,13 +46,13 @@ namespace wanderer
 		}
 
 		std::string
-		Wolf::default_greeter()
+		Wolf::default_greeter() const
 		{
 			return "Wooof!";
 		}
 
 		std::string
-		Wolf::class_name()
+		Wolf::class_name() const
 		{
 			return "Wolf";
 		}

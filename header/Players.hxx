@@ -33,8 +33,8 @@ namespace wanderer
 			Dwarf();
 			~Dwarf();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 
 		class Human : public Player
@@ -43,8 +43,8 @@ namespace wanderer
 			Human();
 			~Human();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 
 		class Elf : public Player
@@ -53,8 +53,8 @@ namespace wanderer
 			Elf();
 			~Elf();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 
 		class Gnome : public Player
@@ -63,8 +63,8 @@ namespace wanderer
 			Gnome();
 			~Gnome();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 
 		class Infernal : public Player
@@ -73,8 +73,8 @@ namespace wanderer
 			Infernal();
 			~Infernal();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 
 		class Lizardfolk : public Player
@@ -83,8 +83,8 @@ namespace wanderer
 			Lizardfolk();
 			~Lizardfolk();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 	};
 };

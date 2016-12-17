@@ -40,13 +40,13 @@ wanderer::players::Gnome::gen_stats()
 }
 
 std::string
-wanderer::players::Gnome::default_greeter()
+wanderer::players::Gnome::default_greeter() const
 {
 	return "You are now a gnome! How cute!";
 }
 
 std::string
-wanderer::players::Gnome::class_name()
+wanderer::players::Gnome::class_name() const
 {
 	return "Gnome";
 }

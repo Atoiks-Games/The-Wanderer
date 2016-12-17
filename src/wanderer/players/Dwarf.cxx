@@ -41,13 +41,13 @@ wanderer::players::Dwarf::gen_stats()
 }
 
 std::string
-wanderer::players::Dwarf::default_greeter()
+wanderer::players::Dwarf::default_greeter() const
 {
 	return "You are now a dwarf! Diggy Diggy Hole!";
 }
 
 std::string
-wanderer::players::Dwarf::class_name()
+wanderer::players::Dwarf::class_name() const
 {
 	return "Dwarf";
 }

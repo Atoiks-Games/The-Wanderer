@@ -35,8 +35,8 @@ namespace wanderer
 			Wolf();
 			~Wolf();
 			void gen_stats();
-			std::string default_greeter();
-			std::string class_name();
+			std::string default_greeter() const;
+			std::string class_name() const;
 		};
 	};
 };

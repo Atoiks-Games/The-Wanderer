@@ -40,13 +40,13 @@ wanderer::players::Infernal::gen_stats()
 }
 
 std::string
-wanderer::players::Infernal::default_greeter()
+wanderer::players::Infernal::default_greeter() const
 {
 	return "Is it me or is it getting hot in here?";
 }
 
 std::string
-wanderer::players::Infernal::class_name()
+wanderer::players::Infernal::class_name() const
 {
 	return "Infernal";
 }

@@ -40,13 +40,13 @@ wanderer::players::Human::gen_stats()
 }
 
 std::string
-wanderer::players::Human::default_greeter()
+wanderer::players::Human::default_greeter() const
 {
 	return "Yay! (Goes back to doing Human stuff, you know...)";
 }
 
 std::string
-wanderer::players::Human::class_name()
+wanderer::players::Human::class_name() const
 {
 	return "Human";
 }

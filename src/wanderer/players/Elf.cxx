@@ -41,13 +41,13 @@ wanderer::players::Elf::gen_stats()
 }
 
 std::string
-wanderer::players::Elf::default_greeter()
+wanderer::players::Elf::default_greeter() const
 {
 	return "You are now an elf! A very popular choice...";
 }
 
 std::string
-wanderer::players::Elf::class_name()
+wanderer::players::Elf::class_name() const
 {
 	return "Elf";
 }
