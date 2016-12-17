@@ -76,6 +76,7 @@ read_player_race()
 }
 
 bool parcel_send_player(Party &p);
+
 bool parcel_on_wolf_killed_player(Party &p, const std::string &n, bool f=true);
 
 bool
@@ -122,9 +123,8 @@ std::endl;
 	}
 	{
 		auto player = party.find_player(name);
-		for (auto it = pack.begin(); it != pack.end(); ++it)
+		for (auto it = pack.begin(); it != pack.end(); )
 		{
-			if (pack.empty()) goto no_wolves;
 			do
 			{
 				if (it->attack(*player))
@@ -151,6 +151,7 @@ std::endl;
 "One of your party members 'senses' the death of " << name << std::endl;
 							return parcel_on_wolf_killed_player(party, name);
 						}
+
 						std::cout <<
 "\n\t...Five years later...\n\n" << name << " has not returned.\n"
 "It is clear to the other group members that " << name << " is in trouble.\n";
@@ -163,21 +164,18 @@ std::endl;
 				}
 				else
 				{
-					std::cout << name << " dodged the wolf's attack" << std::endl;
+					std::cout << name <<
+" dodged the wolf's attack" << std::endl;
 				}
-
-				if (pack.empty()) goto no_wolves;
 
 				if (player->attack(*it))
 				{
 					std::cout << name << " hit the wolf";
 					if (it->hitpoints < 1)
 					{
-						pack.erase(it);
-						std::cout <<
-" and it is dead!\n" << name << " has " << player->hitpoints <<
-" hit points remaining\n" << std::endl;
-						break;
+						it = pack.erase(it);
+						std::cout << " and it is dead!\n" << std::endl;
+						goto combat_loop_clean_up;
 					}
 					std::cout << std::endl;
 				}
@@ -186,15 +184,15 @@ std::endl;
 					std::cout <<
 "The wolf dodged " << name << "'s attack" << std::endl;
 				}
+				++it;
+combat_loop_clean_up:
 				std::cout <<
-name << " has hitpoints: " << player->hitpoints <<
-"\nWolves remaining: " << pack.size() << "\n\nHit enter to continue" <<
-std::endl;
+name << " has " << player->hitpoints << " hit points remaining\n"
+"Wolves remaining: " << pack.size() << "\n\nHit enter to continue" << std::endl;
 				std::string t;
 				std::getline(std::cin, t);
 			}
-			while (true);
-			if (pack.empty()) goto no_wolves;
+			while (it != pack.end());
 		}
 	}
 no_wolves:
