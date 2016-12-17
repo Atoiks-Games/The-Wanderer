@@ -39,8 +39,8 @@ namespace wanderer
 		int intelligence;
 		int wisdom;
 		int charisma;
-		Inventory inventory;
 	public:
+		Inventory inventory;
 		int hitpoints;
 
 		Player();

@@ -43,11 +43,16 @@ namespace wanderer
 		Party &operator=(Party ref);
 
 		std::shared_ptr<Player> find_player(std::string name);
+		const std::shared_ptr<Player> find_player(std::string name) const;
 		std::shared_ptr<Player> remove_player(std::string name);
 		std::shared_ptr<Player> &operator[](std::string name);
 
 		std::map<std::string, std::shared_ptr<Player>>::iterator begin();
 		std::map<std::string, std::shared_ptr<Player>>::iterator end();
+		std::map<std::string, std::shared_ptr<Player>>::const_iterator
+		begin() const;
+		std::map<std::string, std::shared_ptr<Player>>::const_iterator
+		end() const;
 		void erase(std::map<std::string, std::shared_ptr<Player>>::iterator it);
 
 		bool empty() const;

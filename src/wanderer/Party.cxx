@@ -57,6 +57,14 @@ namespace wanderer
 		return pl->second;
 	}
 
+	const std::shared_ptr<Player>
+	Party::find_player(std::string name) const
+	{
+		auto pl = players.find(name);
+		if (pl == players.end()) return std::shared_ptr<Player>(nullptr);
+		return pl->second;
+	}
+
 	std::shared_ptr<Player>
 	Party::remove_player(std::string name)
 	{
@@ -83,6 +91,18 @@ namespace wanderer
 	Party::end()
 	{
 		return players.end();
+	}
+
+	std::map<std::string, std::shared_ptr<Player>>::const_iterator
+	Party::begin() const
+	{
+		return players.cbegin();
+	}
+	
+	std::map<std::string, std::shared_ptr<Player>>::const_iterator
+	Party::end() const
+	{
+		return players.cend();
 	}
 
 	void

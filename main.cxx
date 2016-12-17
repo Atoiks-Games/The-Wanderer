@@ -75,6 +75,31 @@ read_player_race()
 	while (true);
 }
 
+std::string
+read_name_of_player(const Party &party, std::string prompt)
+{
+	std::string name;
+	do
+	{
+		std::cout << prompt << " Write the character's full name" << std::endl;
+		name = io::read_non_empty_line();
+		if (party.find_player(name).get() == nullptr)
+		{
+			std::cout <<
+"Maybe you suck at spelling, because no one is called" << name <<
+"\nChoices:\n";
+			for (auto it = party.begin(); it != party.end(); ++it)
+			{
+				std::cout << it->first << '\n';
+			}
+			std::cout << std::endl;
+			continue;
+		}
+		return name;
+	}
+	while (true);
+}
+
 bool parcel_send_player(Party &p);
 
 bool parcel_on_wolf_killed_player(Party &p, const std::string &n, bool f=true);
@@ -85,26 +110,7 @@ parcel_send_player(Party &party)
 	std::cout <<
 "Your party assembles down in the tavern. They speak among themselves, trying\n"
 "to decide which party member should go out to get the parcel.\n";
-	std::string name;
-	do
-	{
-		std::cout <<
-"Who should go? Write the character's full name" << std::endl;
-		name = io::read_non_empty_line();
-		if (party.find_player(name).get() == nullptr)
-		{
-			std::cout <<
-"Maybe you suck at spelling, because no one is called " << name <<
-"\nChoices:\n";
-			for (auto it = party.begin(); it != party.end(); ++it)
-			{
-				std::cout << it->first << '\n';
-			}
-			std::cout << std::endl;
-		}
-		else break;
-	}
-	while (true);
+	const std::string name = read_name_of_player(party, "Who should go?");
 	std::cout <<
 "Ok! You sent " << name << " to get the parcel" << std::endl;
 
@@ -391,7 +397,61 @@ std::endl;
 				return true;
 			}),
 			Page([](Party &p){
-				std::cout << "You make it!" << std::endl;
+				std::cout <<
+"You make your way in. The cave is cold and damp, the tunnel beckons you deeper"
+"\ninto the cave. Besides the door there is a small chest." << std::endl;
+				do
+				{
+					std::cout <<
+"Here are your choices\n\n-d Go deeper\n-i Inspect room\n-c Open chest" <<
+std::endl;
+					const std::string opt = io::read_non_empty_line();
+					if (opt == "d")
+					{
+						std::cout <<
+"You head deeper into the cave..." << std::endl;
+						return true;
+					}
+					if (opt == "i")
+					{
+						std::cout <<
+"It's a cave (with a tunnel and a small chest that is behind a door)" <<
+std::endl;
+						continue;
+					}
+					if (opt == "c")
+					{
+						const std::string name = read_name_of_player(p,
+							   "Which of your adventurers runs the fastest to"
+							   " the chest?");
+						auto player = p.find_player(name);
+						if (player->roll_wisdom() > 19)
+						{
+							std::cout << name <<
+" uses a stick to knock out one piece of gold" << std::endl;
+							player->inventory.deposit(1);
+						}
+						else
+						{
+							std::cout << name <<
+" died. The chest smiles at you. It appears to be a mimic.\n"
+"(It is possible to get gold though...)" << std::endl;
+							p.remove_player(name);
+							if (p.empty())
+							{
+								std::cout <<
+"All your group members are dead!\n";
+								return false;
+							}
+						}
+						continue;
+					}
+				}
+				while (true);
+				return true;
+			}),
+			Page([](Party &p){
+				std::cout << "And you get there!" << std::endl;
 				return true;
 			})
 		})
