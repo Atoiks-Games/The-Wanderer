@@ -1,5 +1,5 @@
 /**
-  * Item.cxx -- Abstract class for items that can be stored in Inventory
+  * Items.hxx -- A list of items that appear in the game
   *
   * Copyright (C) 2016 Atoiks Games Group
   *
@@ -18,15 +18,25 @@
   *
   */
 
+#ifndef __THE_WANDERER_ITEMS_H__
+#define __THE_WANDERER_ITEMS_H__
+
 #include "Item.hxx"
 
 namespace wanderer
 {
-	Item::Item()
+	namespace items
 	{
-	}
+		class Key : public Item
+		{
+		public:
+			Key();
+			~Key();
 
-	Item::~Item()
-	{
-	}
+			std::string get_name() const;
+			std::string get_desc() const;
+		};
+	};
 };
+
+#endif

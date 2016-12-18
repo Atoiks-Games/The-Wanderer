@@ -1,5 +1,5 @@
 /**
-  * Item.cxx -- Abstract class for items that can be stored in Inventory
+  * Key.cxx -- A key that normally is dropped after a combat
   *
   * Copyright (C) 2016 Atoiks Games Group
   *
@@ -18,15 +18,31 @@
   *
   */
 
-#include "Item.hxx"
+#include "Items.hxx"
 
 namespace wanderer
 {
-	Item::Item()
+	namespace items
 	{
-	}
+		Key::Key()
+			: Item()
+		{
+		}
 
-	Item::~Item()
-	{
-	}
+		Key::~Key()
+		{
+		}
+
+		std::string
+		Key::get_name() const
+		{
+			return "Key";
+		}
+
+		std::string
+		Key::get_desc() const
+		{
+			return "Just an ordiinary key. Nothing special.";
+		}
+	};
 };

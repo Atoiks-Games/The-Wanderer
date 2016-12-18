@@ -31,7 +31,6 @@ namespace wanderer
 		Item();
 		virtual ~Item();
 
-		virtual bool operator<(const Item &rhs) const final;
 		virtual std::string get_name() const = 0;
 		virtual std::string get_desc() const = 0;
 	};

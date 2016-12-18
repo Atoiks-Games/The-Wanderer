@@ -47,6 +47,8 @@ namespace wanderer
 		int withdraw(int val);
 
 		bool empty() const;
+		std::shared_ptr<Item> get_item(std::string name);
+		void add_item(std::shared_ptr<Item> item);
 
 		friend void swap(Inventory &lhs, Inventory &rhs);
 	};

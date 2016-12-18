@@ -85,6 +85,23 @@ namespace wanderer
 		return items.empty();
 	}
 
+	std::shared_ptr<Item>
+	Inventory::get_item(std::string name)
+	{
+		auto it = std::find_if(items.begin(), items.end(),
+				[&name](const std::shared_ptr<Item> &t){
+					return t->get_name() == name;
+				});
+		if (it == items.end()) return std::shared_ptr<Item>(nullptr);
+		return *it;
+	}
+
+	void
+	Inventory::add_item(std::shared_ptr<Item> item)
+	{
+		items.push_back(item);
+	}
+
 	void swap(Inventory &lhs, Inventory &rhs)
 	{
 		using std::swap;

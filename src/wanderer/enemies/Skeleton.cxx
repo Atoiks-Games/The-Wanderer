@@ -1,5 +1,5 @@
 /**
-  * Item.cxx -- Abstract class for items that can be stored in Inventory
+  * Skeleton.cxx -- A skeleton
   *
   * Copyright (C) 2016 Atoiks Games Group
   *
@@ -18,15 +18,43 @@
   *
   */
 
-#include "Item.hxx"
+#include "Enemies.hxx"
 
 namespace wanderer
 {
-	Item::Item()
+	namespace enemies
 	{
-	}
+		Skeleton::Skeleton()
+			: Player()
+		{
+			gen_stats();
+		}
 
-	Item::~Item()
-	{
-	}
+		Skeleton::~Skeleton()
+		{
+		}
+
+		void
+		Skeleton::gen_stats()
+		{
+			base_stats(*this);
+			strength -= 5;
+			intelligence -= 2;
+			dexterity -= 3;
+			if (strength < 3) strength = 3;
+			hitpoints = 13;
+		}
+
+		std::string
+		Skeleton::default_greeter() const
+		{
+			return "Crackle~";
+		}
+
+		std::string
+		Skeleton::class_name() const
+		{
+			return "Skeleton";
+		}
+	};
 };

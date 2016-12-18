@@ -38,6 +38,16 @@ namespace wanderer
 			std::string default_greeter() const;
 			std::string class_name() const;
 		};
+
+		class Skeleton : public Player
+		{
+		public:
+			Skeleton();
+			~Skeleton();
+			void gen_stats();
+			std::string default_greeter() const;
+			std::string class_name() const;
+		};
 	};
 };
 
