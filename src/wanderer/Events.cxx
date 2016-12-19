@@ -90,7 +90,7 @@ namespace wanderer
 std::endl;
 					},
 					[&party, &it, &pack, &names](std::string n){
-						if (it == names.end())
+						if (names.size() == 1)
 						{
 							std::random_device rd;
 							std::mt19937 gen(rd());
@@ -108,7 +108,7 @@ std::endl;
 							return __wolf_killed_player(party, n, false);
 						}
 						std::cout <<
-"(Just kiding, the wolves reappeared)" << std::endl;
+"(Just kiding, the wolves reappeared)\n" << std::endl;
 						return __fight_wolves(pack, party, ++it, names);
 					},
 					[](std::string n){
@@ -176,38 +176,43 @@ no_wolves:
 		}
 
 		bool
-		fight_skeleton(Party &p, std::string name)
+		fight_skeleton(Party &p, std::vector<std::string> names)
 		{
 			static std::vector<enemies::Skeleton> guards(2);
 			if (guards.empty()) return true;
-			return combat(guards, p, name,
-					[](std::string n){
-						std::cout <<
+			for (auto it = names.begin(); it != names.end(); ++it)
+			{
+				bool r = combat(guards, p, *it,
+						[](std::string n){
+							std::cout <<
 n << " was slayed by the skeleton guards!" << std::endl;
-					},
-					[](std::string _n){
-						return false;
-					},
-					[](std::string n){
-						std::cout << n << ": Ouch!" << std::endl;
-					},
-					[](std::string n){
-						std::cout <<
+						},
+						[](std::string _n){
+							return false;
+						},
+						[](std::string n){
+							std::cout << n << ": Ouch!" << std::endl;
+						},
+						[](std::string n){
+							std::cout <<
 n << " dodged the blows of the skeleton guards." << std::endl;
-					},
-					[](std::string n){
-						std::cout <<
+						},
+						[](std::string n){
+							std::cout <<
 n << " made the skeleton crack more than before" << std::endl;
-					},
-					[](std::string n){
-						std::cout <<
+						},
+						[](std::string n){
+							std::cout <<
 "The skeleton guards dodged " << n << "'s attack" << std::endl;
-					},
-					[](std::string n, std::shared_ptr<Player> p){
-						std::cout <<
+						},
+						[](std::string n, std::shared_ptr<Player> p){
+							std::cout <<
 n << " has " << p->hitpoints << " hit points remaining\n"
 "Guards remaining: " << guards.size() << std::endl;
-					});
+						});
+				if (r) return true;
+			}
+			return false;
 		}
 	};
 };

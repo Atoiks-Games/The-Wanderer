@@ -79,6 +79,7 @@ namespace wanderer
 							std::cout << " and it is dead!\n" << std::endl;
 							goto combat_loop_clean_up;
 						}
+						std::cout << std::endl;
 					}
 					else on_enemy_dodge(name);
 combat_loop_clean_up:
@@ -94,7 +95,7 @@ combat_loop_clean_up:
 
 		bool send_player_to_parcel(Party &p);
 
-		bool fight_skeleton(Party &p, std::string name);
+		bool fight_skeleton(Party &p, std::vector<std::string> name);
 	};
 };
 

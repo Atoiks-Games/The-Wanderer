@@ -260,9 +260,9 @@ std::endl;
 					if (opt == "a")
 					{
 						has_attacked = true;
-						auto name = read::name_of_player(p,
-								"Who will intervene the situation?");
-						auto ret = events::fight_skeleton(p, name);
+						auto ret = events::fight_skeleton(p,
+								read::name_of_players(p,
+									"Who will intervene the situation?"));
 						if (ret)
 						{
 							p.begin()->second->inventory.add_item(
@@ -287,7 +287,7 @@ it->first << " went undetected!" << std::endl;
 							}
 							else
 							{
-								if (events::fight_skeleton(p, it->first))
+								if (events::fight_skeleton(p, {it->first}))
 								{
 									// That means there are no more skeletons
 									// meaning all remaining players make it
