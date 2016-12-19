@@ -1,0 +1,20 @@
+# How to contribute
+
+Awesome! Glad you are reading this document!
+
+### Reporting Bugs
+
+Before starting to file a bug, check the issues to see if someone else already created it.
+Please include information such as where you are in the game, what where you doing, and what was the last feedback.
+Additional information such as what operating system you are using, the race and stats of the characters, and what build are you using would be nice.
+To prevent misunderstanding, a screenshot of the current event and how to reproduce the bug is appreciated though not manditory.
+
+### Suggesting Enhancements
+
+If this enhancement is in game mechanics related, then check if someone else created a similar enhancement.
+
+### Code Style
+
+Try to follow what it looks like from the file.
+Use tabs instead of spaces, console output should be less than 80 characters wide,
+spaces around binary operators.
