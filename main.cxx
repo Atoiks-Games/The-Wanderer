@@ -19,9 +19,11 @@
   */
 
 #include "Page.hxx"
+#include "Read.hxx"
 #include "Items.hxx"
 #include "Party.hxx"
 #include "Utils.hxx"
+#include "Events.hxx"
 #include "Player.hxx"
 #include "Chapter.hxx"
 #include "Enemies.hxx"
@@ -37,299 +39,6 @@
 
 using namespace utils;
 using namespace wanderer;
-
-template <typename T>
-bool
-combat(std::vector<T> &pack, Party &p, std::string name,
-	   std::function<void(std::string)> on_player_death,
-	   std::function<bool(std::string)> after_player_death,
-	   std::function<void(std::string)> on_player_got_hit,
-	   std::function<void(std::string)> on_player_dodge,
-	   std::function<void(std::string)> on_enemy_got_hit,
-	   std::function<void(std::string)> on_enemy_dodge,
-	   std::function<void(std::string, std::shared_ptr<Player>)> status)
-{
-	if (pack.empty()) return true;
-	auto player = p.find_player(name);
-	for (auto it = pack.begin(); it != pack.end(); )
-	{
-		do
-		{
-			if (it->attack(*player))
-			{
-				if (player->hitpoints < 1)
-				{
-					on_player_death(name);
-					p.remove_player(name);
-					if (p.empty())
-					{
-						std::cout <<
-"All party members are dead!" << std::endl;
-						return false;
-					}
-					return after_player_death(name);
-				}
-				on_player_got_hit(name);
-			}
-			else on_player_dodge(name);
-
-			if (player->attack(*it))
-			{
-				on_enemy_got_hit(name);
-				if (it->hitpoints < 1)
-				{
-					it = pack.erase(it);
-					std::cout << " and it is dead!\n" << std::endl;
-					goto combat_loop_clean_up;
-				}
-			}
-			else on_enemy_dodge(name);
-//			++it;
-combat_loop_clean_up:
-			status(name, player);
-			std::cout << "\nHit enter to continue" << std::endl;
-			std::string t;
-			std::getline(std::cin, t);
-		}
-		while (it != pack.end());
-	}
-	return true;
-}
-
-std::string
-read_unique_name(const Party &p, std::string prompt = ">> ")
-{
-	do
-	{
-		std::string name = io::read_non_empty_line(prompt);
-		if (p.find_player(name).get() == nullptr) return name;
-		std::cout <<
-"There is already a party member with the name " << name << ".\nTry again" <<
-std::endl;
-	}
-	while (true);
-}
-
-std::unique_ptr<Player>
-read_player_race()
-{
-	std::cout <<
-"Pick a race between Dwarf, Human, Elf, Gnome, Infernal and Lizardfolk"
-			<< std::endl;
-	do
-	{
-		const std::string str = io::read_non_empty_line();
-		if (str::iequals("d", str) || str::iequals("dwarf", str))
-		{
-			return std::unique_ptr<Player>(new players::Dwarf());
-		}
-		if (str::iequals("h", str) || str::iequals("human", str))
-		{
-			return std::unique_ptr<Player>(new players::Human());
-		}
-		if (str::iequals("e", str) || str::iequals("elf", str))
-		{
-			return std::unique_ptr<Player>(new players::Elf());
-		}
-		if (str::iequals("g", str) || str::iequals("gnome", str))
-		{
-			return std::unique_ptr<Player>(new players::Gnome());
-		}
-		if (str::iequals("i", str) || str::iequals("infernal", str))
-		{
-			return std::unique_ptr<Player>(new players::Infernal());
-		}
-		if (str::iequals("l", str) || str::iequals("lizardfolk", str))
-		{
-			return std::unique_ptr<Player>(new players::Lizardfolk());
-		}
-		std::cout << "No race was associated with " << str << std::endl;
-	}
-	while (true);
-}
-
-std::string
-read_name_of_player(const Party &party, std::string prompt)
-{
-	std::string name;
-	do
-	{
-		std::cout << prompt << " Write the character's full name" << std::endl;
-		name = io::read_non_empty_line();
-		if (party.find_player(name).get() == nullptr)
-		{
-			std::cout <<
-"Maybe you suck at spelling, because no one is called " << name <<
-"\nChoices:\n";
-			for (auto it = party.begin(); it != party.end(); ++it)
-			{
-				std::cout << it->first <<
-'(' << it->second->class_name() << ")\n";
-			}
-			std::cout << std::endl;
-			continue;
-		}
-		return name;
-	}
-	while (true);
-}
-
-bool parcel_send_player(Party &p);
-
-bool parcel_on_wolf_killed_player(Party &p, const std::string &n, bool f=true);
-
-bool
-cave_fight_skeleton(Party &p, std::string name)
-{
-	static std::vector<enemies::Skeleton> guards(2);
-	if (guards.empty()) return true;
-	return combat(guards, p, name,
-			[](std::string n){
-				std::cout <<
-n << " was slayed by the skeleton guards!" << std::endl;
-			},
-			[](std::string _n){
-				return false;
-			},
-			[](std::string n){
-				std::cout << n << ": Ouch!" << std::endl;
-			},
-			[](std::string n){
-				std::cout <<
-n << " dodged the blows of the skeleton guards." << std::endl;
-			},
-			[](std::string n){
-				std::cout <<
-n << " made the skeleton crack more than before" << std::endl;
-			},
-			[](std::string n){
-				std::cout <<
-"The skeleton guards dodged " << n << "'s attack" << std::endl;
-			},
-			[](std::string n, std::shared_ptr<Player> p){
-				std::cout <<
-n << " has " << p->hitpoints << " hit points remaining\n"
-"Guards remaining: " << guards.size() << std::endl;
-			});
-}
-
-bool
-parcel_send_player(Party &party)
-{
-	std::cout <<
-"Your party assembles down in the tavern. They speak among themselves, trying\n"
-"to decide which party member should go out to get the parcel.\n";
-	const std::string name = read_name_of_player(party, "Who should go?");
-	std::cout <<
-"Ok! You sent " << name << " to get the parcel" << std::endl;
-
-	static std::vector<enemies::Wolf> pack(5);
-	if (pack.empty()) goto no_wolves;
-
-	if (pack.size() == 1)
-	{
-		std::cout << name << ": I see a wolf." << std::endl;
-	}
-	else
-	{
-		std::cout << name <<
-": I see wolves. Wolves everywhere (" << pack.size() << " of them)!" <<
-std::endl;
-	}
-
-	return combat(pack, party, name,
-			[](std::string n){
-				std::cout << n <<
-" did not make it...\nThe remaining wolves seemed to have went away" <<
-std::endl;
-			},
-			[&party](std::string n){
-				std::random_device rd;
-				std::mt19937 gen(rd());
-				std::uniform_int_distribution<> d(1, 10);
-				if (d(gen) > 6)
-				{
-					std::cout <<
-"One of your party members 'senses' the death of " << n << std::endl;
-					return parcel_on_wolf_killed_player(party, n);
-				}
-
-				std::cout <<
-"\n\t...Five years later...\n\n" << n << " has not returned.\n"
-"It is clear to the other group members that " << n << " is in trouble.\n";
-				return parcel_on_wolf_killed_player(party, n, false);
-			},
-			[](std::string n){
-				std::cout << n << ": Ouch!" << std::endl;
-			},
-			[](std::string n){
-				std::cout << n << " dodged the wolf's attack" << std::endl;
-			},
-			[](std::string n){
-				std::cout << n << " hit the wolf";
-			},
-			[](std::string n){
-				std::cout <<
-"The wolf dodged " << n << "'s attack" << std::endl;
-			},
-			[](std::string n, std::shared_ptr<Player> player){
-				std::cout <<
-n << " has " << player->hitpoints << " hit points remaining\n"
-"Wolves remaining: " << pack.size() << std::endl;
-			});
-no_wolves:
-	std::cout << "You successfully acquired the parcel!" << std::endl;
-	return true;
-}
-
-bool
-parcel_on_wolf_killed_player(Party &p, const std::string &name, bool realize)
-{
-	if (realize) std::cout << p.begin()->first << ": " << name << " died! ";
-	do
-	{
-		if (realize)
-		{
-			std::cout << "What do you want to do?\n\n-w Kill the wolves";
-		}
-		else
-		{
-			std::cout << "What do you want to do?\n";
-		}
-		std::cout << "\n-s Send another player\n-a Abort the mission"
-"\n-c Try to kill the contractor" << std::endl;
-		const std::string opt = io::read_non_empty_line();
-		if (opt == "s") return parcel_send_player(p);
-		if (opt == "a")
-		{
-			std::cout <<
-"The contractor accepts your choice and then leaves" << std::endl;
-			return false;
-		}
-		if (opt == "w" && realize)
-		{
-			std::cout << p.begin()->first <<
-" failed to 'sense' any other wolves.";
-			if (!p.empty())
-			{
-				std::cout <<
-" The other members look at the player weird.";
-			}
-			std::cout << std::endl;
-			continue;
-		}
-		if (opt == "c")
-		{
-			std::cout <<
-"Turns out you are the contractor... You kill your fellow group mates and they"
-"\nall died. DO NOT TRY TO KILL THE CONTRACTOR!" << std::endl;
-			return false;
-		}
-		std::cout << "What is it?" << std::endl;
-	}
-	while (true);
-	return true;
-}
 
 int
 main (void)
@@ -347,14 +56,14 @@ std::endl;
 		Page([](Party &party){
 			std::cout << "Give me your name" << std::endl;
 			std::string name = io::read_non_empty_line();
-			party[name] = mem::unique_to_shared(read_player_race());
+			party[name] = mem::unique_to_shared(read::race());
 			std::cout << name << ": " << party[name]->default_greeter() <<
 "\nAlright " << name <<
 "! Give me three other names for your fellow party members" << std::endl;
 			for (int i = 0; i < 3; ++i)
 			{
-				name = read_unique_name(party, std::to_string(i + 1) + ">> ");
-				party[name] = mem::unique_to_shared(read_player_race());
+				name = read::new_name(party, std::to_string(i + 1) + ">> ");
+				party[name] = mem::unique_to_shared(read::race());
 				std::cout << name << ": " << party[name]->default_greeter()
 						<< std::endl;
 			}
@@ -395,7 +104,7 @@ it->second->get_stats() << '\n' << std::endl;
 				else std::cout << "What is that?";
 			}
 			while (true);
-			return parcel_send_player(party);
+			return events::send_player_to_parcel(party);
 		}),
 	});
 
@@ -503,7 +212,7 @@ mimic_senser << ": I am pretty sure the chest has teeth!" << std::endl;
 					}
 					if (opt == "c")
 					{
-						const std::string name = read_name_of_player(p,
+						const std::string name = read::name_of_player(p,
 							   "Which of your adventurers runs the fastest to"
 							   " the chest?");
 						auto player = p.find_player(name);
@@ -551,9 +260,9 @@ std::endl;
 					if (opt == "a")
 					{
 						has_attacked = true;
-						auto name = read_name_of_player(p,
+						auto name = read::name_of_player(p,
 								"Who will intervene the situation?");
-						auto ret = cave_fight_skeleton(p, name);
+						auto ret = events::fight_skeleton(p, name);
 						if (ret)
 						{
 							p.begin()->second->inventory.add_item(
@@ -578,7 +287,7 @@ it->first << " went undetected!" << std::endl;
 							}
 							else
 							{
-								if (cave_fight_skeleton(p, it->first))
+								if (events::fight_skeleton(p, it->first))
 								{
 									// That means there are no more skeletons
 									// meaning all remaining players make it
@@ -620,7 +329,7 @@ it->first << " went undetected!" << std::endl;
 					}
 					if (opt == "t")
 					{
-						auto name = read_name_of_player(p,
+						auto name = read::name_of_player(p,
 								"Who's breaking the ice?");
 						auto player = p.find_player(name);
 						int dc_charisma = 18;
@@ -636,7 +345,7 @@ it->first << " went undetected!" << std::endl;
 "Give me two names (for the skeleton friends)" << std::endl;
 							for (std::size_t i = 0; i < 2; ++i)
 							{
-								auto name = read_unique_name(p,
+								auto name = read::new_name(p,
 										std::to_string(i + 1) + ">> ");
 								p[name] = std::shared_ptr<Player>(
 										new enemies::Skeleton());
