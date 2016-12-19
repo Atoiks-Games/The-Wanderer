@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2015
+image: Visual Studio 2013
 configuration: Release
 before_build:
 - cmd: >-
@@ -7,7 +7,7 @@ before_build:
 
     cd build
 
-    cmake ..
+    cmake -G "Visual Studio 12" ..
 build:
   parallel: true
   verbosity: minimal
