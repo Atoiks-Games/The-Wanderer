@@ -34,7 +34,7 @@ A binary with the name of `the_wanderer` should appear. Run it!
 
 #### Windows
 
-* MSVC at least 19.0
+* MSVC at least 18.0
 * msbuild
 
 At the root directory of the project:
@@ -42,8 +42,8 @@ At the root directory of the project:
 ```
 > mkdir build
 > cd build
-> cmake -G "Visual Studio 14 2015" ..
+> cmake -G "Visual Studio 12" ..
 > msbuild .\THE_WANDERER.sln
 ```
 
-A binary with the name `the_wanderer.exe` should appear under `Debug`. Run it!
+A binary with the name `the_wanderer.exe` should appear under `Debug` (or `Release` depending on your build configuration). Run it!
