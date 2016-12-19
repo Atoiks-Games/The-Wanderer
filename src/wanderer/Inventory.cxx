@@ -20,7 +20,7 @@
 
 #include "Inventory.hxx"
 
-static constexpr int MAX_COINS = 256000;
+static const int MAX_COINS = 256000;
 
 namespace wanderer
 {
