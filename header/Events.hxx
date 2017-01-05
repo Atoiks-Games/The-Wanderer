@@ -96,6 +96,10 @@ combat_loop_clean_up:
 		bool send_player_to_parcel(Party &p);
 
 		bool fight_skeleton(Party &p, std::vector<std::string> name);
+
+		bool cell_with_old_man_opt_t(Party &p);
+
+		bool cell_with_old_man_opt_d(Party &p);
 	};
 };
 

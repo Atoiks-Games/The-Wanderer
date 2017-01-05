@@ -372,6 +372,50 @@ name << ": " << p[name]->default_greeter() << std::endl;
 				std::cout <<
 "You continue deeper into the dungeon" << std::endl;
 				return true;
+			}),
+			Page([](Party &p){
+				std::size_t tries = 0;
+				while (tries < 10)
+				{
+					std::cout <<
+"You enter the next chamber. There is a cell made with the cave walls, iron\n"
+"bars and a gray, metal door. Inside the cell there is an old man. He does\n"
+"not see you and is wandering around his cell. Do you\n\n"
+"-t Talk to the man\n-d Check the door\n-n Inspect the room further." <<
+std::endl;
+					const std::string opt = io::read_non_empty_line();
+					if (opt == "t")
+					{
+						return events::cell_with_old_man_opt_t(p);
+					}
+					if (opt == "d")
+					{
+						return events::cell_with_old_man_opt_d(p);
+					}
+					if (opt == "n")
+					{
+						tries += 1;
+						continue;
+					}
+					std::cout << "What is that?" << std::endl;
+				}
+				auto unluckyPlayer = p.begin();
+				std::cout <<
+"Your secret inspection powers awaken. You realize " << unluckyPlayer->first <<
+" is about to die. (Dies a couple seconds after realization)" << std::endl;
+				p.erase(unluckyPlayer);
+				if (p.empty())
+				{
+					std::cout <<
+"The entire party has died. If the secret powers had awaken earlier..." <<
+std::endl;
+				}
+				else
+				{
+					std::cout <<
+"You were not supposed to unlock your secret power..." << std::endl;
+				}
+				return false;
 			})
 		})
 	));

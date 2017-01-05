@@ -214,5 +214,25 @@ n << " has " << p->hitpoints << " hit points remaining\n"
 			}
 			return false;
 		}
+
+		bool
+		cell_with_old_man_opt_t(Party &p)
+		{
+			std::cout <<
+"What do you say?\n\n-s Su dude!?\n"
+"-a Are you the merchant we are looking for?\n-h Hey, are you alright?\n"
+"0w What is your name?\n-d Don't worry. We are here to help!" << std::endl;
+			return true;
+		}
+
+		bool
+		cell_with_old_man_opt_d(Party &p)
+		{
+			std::cout <<
+"The door speaks: 'HALT! WHO GOES THERE?'\nHow do you respond?\n\n"
+"-s Su dude!?\n-m My name is " << p.begin()->first << ", also in my party ...\n"
+"-w What are you?" << std::endl;
+			return true;
+		}
 	};
 };
