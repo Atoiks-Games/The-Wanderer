@@ -218,10 +218,115 @@ n << " has " << p->hitpoints << " hit points remaining\n"
 		bool
 		cell_with_old_man_opt_t(Party &p)
 		{
-			std::cout <<
+			bool enable_opt3;
+			while (true) {
+head:
+				enable_opt3 = false;
+				std::cout <<
 "What do you say?\n\n-s Su dude!?\n"
 "-a Are you the merchant we are looking for?\n-h Hey, are you alright?\n"
-"0w What is your name?\n-d Don't worry. We are here to help!" << std::endl;
+"-w What is your name?\n-d Don't worry. We are here to help!" << std::endl;
+
+				const std::string opt = utils::io::read_non_empty_line();
+				if (opt == "s") {
+					std::cout <<
+"The main fainted... You now decided to check the door because why not..." <<
+std::endl;
+					throw "ret";
+				}
+				if (opt == "a") {
+					std::cout <<
+"The man responds, Yes I am the lost merchant. Please get me out of the cell!"
+<< std::endl;
+
+sub_opt_no_2:
+					while (true)
+					{
+						std::cout <<
+"You have a choice between\n\n-a Ask more questions\n-d Inspect the door"
+<< std::endl;
+						if (enable_opt3)
+						{
+							std::cout <<
+"-n Choose to not save the old man" << std::endl;
+						}
+
+						const std::string inner =
+							utils::io::read_non_empty_line();
+						if (inner == "a") goto head;
+						if (inner == "d") throw "ret";
+						if (enable_opt3 && inner == "n")
+						{
+							std::cout <<
+"\"NO! WAIT PLZ!\"\n\n-e Leave\n-s Stay" << std::endl;
+							const std::string inner2 =
+								utils::io::read_non_empty_line();
+							if (inner2 == "e")
+							{
+								std::cout <<
+"You leave the merchant. He dies in the cave. You (apparently) do not care.\n"
+"Unfortunately, you sense the journey will now be much harder without\n"
+"someone to sell you items." << std::endl;
+								return true; // game continues without merchant
+							}
+							if (inner2 != "s") std::cout <<
+"You decide to stay even though that was not the order you were given..." <<
+std::endl;
+							goto head;
+						}
+
+						std::cout << "What is this?" << std::endl;
+					}
+					return true;
+				}
+				if (opt == "h") {
+					std::cout <<
+"The man looks at you like you are an idiot. \"I'm stuck in a cell! Of\n"
+"course not!\"" << std::endl;
+					enable_opt3 = true;
+					goto sub_opt_no_2;
+				}
+				if (opt == "w") {
+					std::cout <<
+"My name if Jeef!" << std::endl;
+					goto sub_opt_no_2;
+				}
+				if (opt == "d") {
+					if (p.size() > 1)
+					{
+						std::cout <<
+"I am the lost merchant. Please get me out of the cell!\n" <<
+std::endl;
+						goto sub_opt_no_2;
+					}
+
+					// Control flow would have been gone if party size was
+					// greater than 1, so no need for else
+					std::cout <<
+"Wait we? There is only one of you..." << std::endl;
+					while (true)
+					{
+						std::cout <<
+"Choose a response\n\n-m That's what I want you to think\n"
+"-s Oops, the others must have died, well I am here to rescue you! Are you\n"
+"   the merchant we are looking for?" <<
+std::endl;
+						const std::string inner =
+							utils::io::read_non_empty_line();
+						if (inner == "m")
+						{
+							std::cout <<
+"Shawdows turn into clones of you and they slowly converge on the man who\n"
+"screams as he dies. Then you descend into the darkness never to be seen\n"
+"again..." << std::endl;
+							return false;
+						}
+						if (inner == "s") goto sub_opt_no_2;
+						std::cout << "What is this?" << std::endl;
+					}
+				}
+				std::cout << "What is this?" << std::endl;
+			}
 			return true;
 		}
 
@@ -232,6 +337,10 @@ n << " has " << p->hitpoints << " hit points remaining\n"
 "The door speaks: 'HALT! WHO GOES THERE?'\nHow do you respond?\n\n"
 "-s Su dude!?\n-m My name is " << p.begin()->first << ", also in my party ...\n"
 "-w What are you?" << std::endl;
+
+			std::cout <<
+"Currently this does nothing, so yeah, you beat the game, and well, sure..." <<
+std::endl;
 			return true;
 		}
 	};

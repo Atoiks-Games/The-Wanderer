@@ -295,6 +295,7 @@ it->first << " went undetected!" << std::endl;
 "The remaining players make it without sneaking" << std::endl;
 									return true;
 								}
+								if (p.empty()) return false;
 								++it;
 							}
 						}
@@ -386,10 +387,18 @@ std::endl;
 					const std::string opt = io::read_non_empty_line();
 					if (opt == "t")
 					{
-						return events::cell_with_old_man_opt_t(p);
+						try
+						{
+							return events::cell_with_old_man_opt_t(p);
+						}
+						catch (const char *msg)
+						{
+							goto check_the_door;
+						}
 					}
 					if (opt == "d")
 					{
+check_the_door:
 						return events::cell_with_old_man_opt_d(p);
 					}
 					if (opt == "n")
