@@ -429,6 +429,18 @@ std::endl;
 		})
 	));
 
+	prologue.and_then(std::shared_ptr<Chapter>(
+		new Chapter("\n\n\t_CHAPTER 2: To be continued..._\n\n", {
+			Page([](Party &p){
+				std::cout << "Yay, thats all we have so far!" << std::endl;
+				if (p.hasMerchant())
+				{
+					std::cout << "You saved the merchant (old man) and he offers you nothing" << std::endl;
+				}
+				return true;
+			})
+		})
+	));
 	Party party;
 	prologue(party);
 

@@ -34,6 +34,7 @@ namespace wanderer
 	{
 	private:
 		std::map<std::string, std::shared_ptr<Player>> players;
+		bool merchantFlag;
 	public:
 		Party();
 		Party(const Party &ref);
@@ -54,9 +55,14 @@ namespace wanderer
 		std::map<std::string, std::shared_ptr<Player>>::const_iterator
 		end() const;
 		void erase(std::map<std::string, std::shared_ptr<Player>>::iterator it);
+		void clear();
+
+		void enableMerchant();
+		void disableMerchant();
 
 		bool empty() const;
 		std::size_t size() const;
+		bool hasMerchant() const;
 
 		friend void swap(Party &lhs, Party &rhs);
 	};

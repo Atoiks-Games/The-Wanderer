@@ -230,7 +230,7 @@ head:
 				const std::string opt = utils::io::read_non_empty_line();
 				if (opt == "s") {
 					std::cout <<
-"The main fainted... You now decided to check the door because why not..." <<
+"The man fainted... You now decided to check the door because why not..." <<
 std::endl;
 					throw "ret";
 				}
@@ -335,13 +335,89 @@ std::endl;
 		{
 			std::cout <<
 "The door speaks: 'HALT! WHO GOES THERE?'\nHow do you respond?\n\n"
-"-s Su dude!?\n-m My name is " << p.begin()->first << ", also in my party ...\n"
-"-w What are you?" << std::endl;
+"-s Su dude!?\n-m My name is " << p.begin()->first <<
+"\n-w What are you?" << std::endl;
 
+			const std::string opt = utils::io::read_non_empty_line();
+			if (opt == "w")
+			{
+				std::cout <<
+"The door feels offended and slams all your party members IN THE FACE!!!\n"
+"All your party members died. The door cries in slience..." << std::endl;
+				p.clear();
+				return false;
+			}
+			if (opt == "s")
+			{
+				std::cout <<
+"The door, quite simply, does not care." << std::endl;
+				for (auto it = p.begin(); it != p.end(); ++it)
+				{
+					if (it->second->class_name() == "Skeleton")
+					{
+						std::cout << it->first <<
+" makes its way towards the door and unlocks it!\n"
+"You saved the merchant and left the cave" << std::endl;
+						return true;
+					}
+				}
+				// So, no, you do not have any skeleton friends
+				// Result to sending lock-pickers (intel check)
+lock_picking:
+				while (true)
+				{
+					std::cout <<
+"Either\n"
+"-s send a player to try lock picking the door\n"
+"-i leave and ignore the old man" << std::endl;
+					const std::string opt1 = utils::io::read_non_empty_line();
+					if (opt1 == "s")
+					{
+						const std::string name = read::name_of_player(p, ">> ");
+						auto pl = p.find_player(name);
+						if (pl->roll_intelligence() > 12)
+						{
+							std::cout <<
+"The door was amazed by " << name << "'s lock picking skills!\n"
+"The old man is saved! You all leave the cave place." << std::endl;
+							p.enableMerchant();
+							return true;
+						}
+						else
+						{
+							std::cout <<
+name << " failed at lock picking" << std::endl;
+							continue;
+						}
+					}
+					if (opt1 == "i")
+					{
+						std::cout <<
+"The old man looks at you as you walk away. You realize the decision you made\n"
+"might not be the smartest decision..." << std::endl;
+						return true;
+					}
+					std::cout << "What is it?" << std::endl;
+				}
+			}
+			if (opt == "m")
+			{
+				// Befriend the door!? Do charisma check
+				if (p.begin()->second->roll_charisma() > 19)
+				{
+					std::cout <<
+"The door is moved by the simple greeter and wants to join your group. To bad\n"
+"it is nailed to the floor and has no legs to move around...\nAnyway, it\n"
+"unlocked and you united with the old man and left the area!" << std::endl;
+					p.enableMerchant();
+					return true;
+				}
+				goto lock_picking;
+			}
 			std::cout <<
-"Currently this does nothing, so yeah, you beat the game, and well, sure..." <<
-std::endl;
-			return true;
+"The door did not understand what you were trying to say. It fell asleep and\n"
+"now you cannot open it. Good job!" << std::endl;
+			return false;
 		}
 	};
 };

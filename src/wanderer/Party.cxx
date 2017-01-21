@@ -23,12 +23,12 @@
 namespace wanderer
 {
 	Party::Party()
-		: players()
+		: players(), merchantFlag(false)
 	{
 	}
 
 	Party::Party(const Party &ref)
-		: players(ref.players)
+		: players(ref.players), merchantFlag(ref.merchantFlag)
 	{
 	}
 
@@ -111,6 +111,24 @@ namespace wanderer
 		players.erase(it);
 	}
 
+	void
+	Party::clear()
+	{
+		players.clear();
+	}
+
+	void
+	Party::enableMerchant()
+	{
+		this->merchantFlag = true;
+	}
+
+	void
+	Party::disableMerchant()
+	{
+		this->merchantFlag = false;
+	}
+
 	bool
 	Party::empty() const
 	{
@@ -123,11 +141,18 @@ namespace wanderer
 		return players.size();
 	}
 
+	bool
+	Party::hasMerchant() const
+	{
+		return this->merchantFlag;
+	}
+
 	void
 	swap(Party &lhs, Party &rhs)
 	{
 		using std::swap;
 
 		swap(lhs.players, rhs.players);
+		swap(lhs.merchantFlag, rhs.merchantFlag);
 	}
 };
