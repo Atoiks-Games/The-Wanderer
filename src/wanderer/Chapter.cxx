@@ -54,6 +54,12 @@ namespace wanderer
 		return *this;
 	}
 
+	std::shared_ptr<Chapter>
+	Chapter::get_next()
+	{
+		return this->next;
+	}
+
 	void
 	Chapter::and_then(std::shared_ptr<Chapter> next)
 	{

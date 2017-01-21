@@ -47,6 +47,7 @@ namespace wanderer
 
 		Chapter &operator=(Chapter ref);
 
+		std::shared_ptr<Chapter> get_next();
 		void and_then(std::shared_ptr<Chapter> next);
 		void operator()(Party &info);
 

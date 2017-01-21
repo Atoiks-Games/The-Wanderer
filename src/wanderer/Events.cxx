@@ -367,13 +367,12 @@ lock_picking:
 				while (true)
 				{
 					std::cout <<
-"Either\n"
 "-s send a player to try lock picking the door\n"
 "-i leave and ignore the old man" << std::endl;
 					const std::string opt1 = utils::io::read_non_empty_line();
 					if (opt1 == "s")
 					{
-						const std::string name = read::name_of_player(p, ">> ");
+						const std::string name = read::name_of_player(p, "Who is lock picking?");
 						auto pl = p.find_player(name);
 						if (pl->roll_intelligence() > 12)
 						{

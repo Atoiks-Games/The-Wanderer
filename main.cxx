@@ -429,7 +429,7 @@ std::endl;
 		})
 	));
 
-	prologue.and_then(std::shared_ptr<Chapter>(
+	prologue.get_next()->and_then(std::shared_ptr<Chapter>(
 		new Chapter("\n\n\t_CHAPTER 2: The King of Theives_\n\n", {
 			Page([](Party &p){
 				std::cout << "Yay, thats all we have so far!" << std::endl;
